@@ -42,18 +42,15 @@ SupplyRequest.init(
         clinic_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            references: { model: "clinics", key: "id" },
         },
         warehouse_id: {
             type: DataTypes.INTEGER,
             allowNull: true,
             defaultValue: null,
-            references: { model: "warehouses", key: "id" },
         },
         medication_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            references: { model: "medications", key: "id" },
         },
         quantity_requested: {
             type: DataTypes.INTEGER,
@@ -67,7 +64,6 @@ SupplyRequest.init(
         requested_by: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            references: { model: "users", key: "id" },
         },
         notes: {
             type: DataTypes.TEXT,

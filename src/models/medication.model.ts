@@ -37,7 +37,6 @@ Medication.init(
         warehouse_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            references: { model: "warehouses", key: "id" },
         },
     },
     { sequelize, tableName: "medications", timestamps: true }
