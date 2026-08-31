@@ -1,0 +1,26 @@
+[
+  { 
+    "name": "Clínica Vida y Salud", 
+    "nit": "900123456-1", 
+    "address": "Av. Principal #34-21, Bogotá", 
+    "phone": "3001234567", 
+    "responsible_name": "Dr. Carlos Rodríguez", 
+    "responsible_email": "c.rodriguez@vidaysalud.com" 
+  },
+  { 
+    "name": "Centro Médico Los Andes", 
+    "nit": "800987654-2", 
+    "address": "Calle 45 #12-88, Medellín", 
+    "phone": "3129876543", 
+    "responsible_name": "Dra. María Fernández", 
+    "responsible_email": "m.fernandez@losandes.com" 
+  },
+  { 
+    "name": "Hospital Regional Riwi", 
+    "nit": "700555333-3", 
+    "address": "Carrera 10 #5-20, Cali", 
+    "phone": "3154445555", 
+    "responsible_name": "Dr. Andrés Gómez", 
+    "responsible_email": "a.gomez@hospitalriwi.org" 
+  }
+]

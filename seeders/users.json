@@ -1,0 +1,4 @@
+[
+  { "name": "Administrador General", "email": "admin@riwi.com", "password": "admin", "role": "admin" },
+  { "name": "Gestor Operativo", "email": "gestor@riwi.com", "password": "gestor", "role": "gestor" }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Bodega Principal Norte",
+    "location": "Zona Industrial Norte, Bogotá",
+    "capacity": 50000
+  },
+  {
+    "name": "Bodega Secundaria Sur",
+    "location": "Vía Panamericana, Cali",
+    "capacity": 20000
+  }
+]
