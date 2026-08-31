@@ -4,6 +4,9 @@ import { verifyToken, verifyAdmin, AuthRequest } from "../middlewares/jwt.middle
 
 const router = Router();
 
+// Todos: solicitudes activas
+router.get("/active", verifyToken, (req, res) => ctrl.getActive(req as AuthRequest, res));
+
 // Gestor: crea solicitud
 router.post("/", verifyToken, (req, res) => ctrl.create(req as AuthRequest, res));
 

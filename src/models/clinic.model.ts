@@ -43,5 +43,5 @@ Clinic.init(
             validate: { isEmail: true },
         },
     },
-    { sequelize, tableName: "clinics", timestamps: true }
+    { sequelize, tableName: "clinics", timestamps: true, paranoid: true }
 );

@@ -13,6 +13,14 @@ const includes = [
 
 export const findAll = () => SupplyRequest.findAll({ include: includes });
 
+export const findActive = () => {
+    const { Op } = require("sequelize");
+    return SupplyRequest.findAll({
+        where: { status: { [Op.in]: ["pendiente", "aprobada"] } },
+        include: includes
+    });
+};
+
 export const findByUser = (userId: number) =>
     SupplyRequest.findAll({ where: { requested_by: userId }, include: includes });
 

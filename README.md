@@ -4,8 +4,8 @@ API REST para administrar el ciclo de vida de las solicitudes de abastecimiento 
 
 ## Datos del Desarrollador
 - **Nombre:** Brayan Lozada
-- **Clan:** Lovelace
-- **Enlace del Repositorio Público:** [Reemplazar con URL de GitHub]
+- **Clan:** NodeJS/NestJS AM
+- **Enlace del Repositorio Público:** (https://github.com/brayanlozada1102-collab/Prueba_de_desempe-o_Node.js_RiwiMediCare.git)
 
 ## Tecnologías Utilizadas
 - **Lenguaje:** TypeScript

@@ -39,5 +39,5 @@ Medication.init(
             allowNull: false,
         },
     },
-    { sequelize, tableName: "medications", timestamps: true }
+    { sequelize, tableName: "medications", timestamps: true, paranoid: true }
 );

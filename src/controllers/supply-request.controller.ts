@@ -90,3 +90,18 @@ export const updateStatus = async (req: AuthRequest, res: Response) => {
         res.status(400).json({ success: false, message });
     }
 };
+
+/**
+ * Obtiene todas las solicitudes en estado activo (Gestor y Admin).
+ * @param {Request} req
+ * @param {Response} res 
+ */
+export const getActive = async (_req: AuthRequest, res: Response) => {
+    try {
+        const data = await service.getActive();
+        res.json({ success: true, data });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Error";
+        res.status(500).json({ success: false, message });
+    }
+};

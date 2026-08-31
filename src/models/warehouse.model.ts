@@ -30,5 +30,5 @@ Warehouse.init(
         location: { type: DataTypes.STRING, allowNull: false },
         capacity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
     },
-    { sequelize, tableName: "warehouses", timestamps: true }
+    { sequelize, tableName: "warehouses", timestamps: true, paranoid: true }
 );

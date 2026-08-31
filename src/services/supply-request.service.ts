@@ -8,6 +8,10 @@ import { RequestStatus, SupplyRequest } from "../models/supply-request.model";
  * @returns {Promise<SupplyRequest[]>} El registro de peticiones.
  */
 export const getAll = (): Promise<SupplyRequest[]> => repo.findAll();
+/**
+ * Obtiene las solicitudes activas (pendientes / aprobadas)
+ */
+export const getActive = (): Promise<SupplyRequest[]> => repo.findActive();
 
 /**
  * Obtiene todas las solicitudes de un usuario específico.
@@ -55,6 +59,10 @@ export const create = async (data: {
     const clinic = await clinicRepo.findById(data.clinic_id);
     if (!clinic) {
         throw new Error(`La clínica con ID ${data.clinic_id} no existe`);
+    }
+
+    if (data.quantity_requested <= 0) {
+        throw new Error("La cantidad solicitada debe ser mayor a cero");
     }
 
     // 2. Verificar que el medicamento exista

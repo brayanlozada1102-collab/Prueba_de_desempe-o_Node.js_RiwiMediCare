@@ -70,5 +70,5 @@ SupplyRequest.init(
             allowNull: true,
         },
     },
-    { sequelize, tableName: "supply_requests", timestamps: true }
+    { sequelize, tableName: "supply_requests", timestamps: true, paranoid: true }
 );

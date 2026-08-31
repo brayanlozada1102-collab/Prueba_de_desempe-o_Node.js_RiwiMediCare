@@ -15,6 +15,13 @@ interface LoginInput {
     password: string;
 }
 
+/**
+ * Registra un nuevo usuario en la base de datos (Admin o Gestor).
+ * Encripta la contraseña de forma segura usando bcrypt.
+ * @param {RegisterInput} data Entidad con los datos del usuario a crear.
+ * @returns {Promise<Partial<User>>} Promesa con la respuesta del usuario (sin password).
+ * @throws {Error} Si el correo electrónico ya se encuentra reservado.
+ */
 export const register = async (data: RegisterInput) => {
     const existing = await userRepository.findByEmail(data.email);
 
@@ -37,6 +44,12 @@ export const register = async (data: RegisterInput) => {
     };
 };
 
+/**
+ * Autentica un usuario en el sistema.
+ * @param {LoginInput} data Credenciales del usuario (email y contraseña).
+ * @returns {Promise<{token: string, user: Partial<User>}>} Objeto con el Access Token JWT y la data del usuario logueado.
+ * @throws {Error} Cuando el correo o la contraseña son incorrectos.
+ */
 export const login = async (data: LoginInput) => {
     const user = await userRepository.findByEmail(data.email);
 
