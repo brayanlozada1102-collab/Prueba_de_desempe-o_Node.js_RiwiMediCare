@@ -55,9 +55,10 @@ const options: swaggerJsdoc.Options = {
                 // ── Clinic ───────────────────────────────────────────────────────
                 ClinicInput: {
                     type: "object",
-                    required: ["name", "address", "phone", "responsible_name", "responsible_email"],
+                    required: ["name", "nit", "address", "phone", "responsible_name", "responsible_email"],
                     properties: {
                         name: { type: "string", example: "Clínica Norte" },
+                        nit: { type: "string", example: "900123456-1", description: "NIT único de la clínica" },
                         address: { type: "string", example: "Calle 10 #23-45" },
                         phone: { type: "string", example: "3001234567" },
                         responsible_name: { type: "string", example: "Dr. García" },

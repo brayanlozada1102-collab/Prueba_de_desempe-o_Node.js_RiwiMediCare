@@ -4,6 +4,7 @@ import { sequelize } from "../config/database";
 export interface ClinicAttributes {
     id: number;
     name: string;
+    nit: string;
     address: string;
     phone: string;
     responsible_name: string;
@@ -19,6 +20,7 @@ export class Clinic
     implements ClinicAttributes {
     public id!: number;
     public name!: string;
+    public nit!: string;
     public address!: string;
     public phone!: string;
     public responsible_name!: string;
@@ -31,6 +33,7 @@ Clinic.init(
     {
         id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
         name: { type: DataTypes.STRING, allowNull: false },
+        nit: { type: DataTypes.STRING, allowNull: false, unique: true },
         address: { type: DataTypes.STRING, allowNull: false },
         phone: { type: DataTypes.STRING, allowNull: false },
         responsible_name: { type: DataTypes.STRING, allowNull: false },
