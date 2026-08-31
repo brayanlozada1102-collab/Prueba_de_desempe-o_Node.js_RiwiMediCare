@@ -1,11 +1,13 @@
 import * as userRepository from "../repositories/user.repository";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { env } from "../config/env";
 
 interface RegisterInput {
     name: string;
     email: string;
     password: string;
+    role?: "admin" | "gestor";
 }
 
 interface LoginInput {
@@ -48,17 +50,10 @@ export const login = async (data: LoginInput) => {
         throw new Error("Credenciales inválidas");
     }
 
-    const secret = process.env.JWT_SECRET;
-    const expiresIn = process.env.JWT_EXPIRES_IN || "1d";
-
-    if (!secret) {
-        throw new Error("JWT_SECRET no configurado en variables de entorno");
-    }
-
     const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
-        secret,
-        { expiresIn } as jwt.SignOptions
+        env.jwt.secret,
+        { expiresIn: env.jwt.expiresIn } as jwt.SignOptions
     );
 
     return {
