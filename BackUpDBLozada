@@ -1,0 +1,571 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict gkZcIUwDdMXqv0ZZ8QLJJihFiVMgdOGjsCaCvj0qTovFoqgLsxJbHbqyDfQ5c3y
+
+-- Dumped from database version 16.15 (Debian 16.15-1.pgdg13+2)
+-- Dumped by pg_dump version 16.14
+
+-- Started on 2026-08-31 16:52:12 UTC
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 5 (class 2615 OID 17554)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- TOC entry 3481 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS '';
+
+
+--
+-- TOC entry 866 (class 1247 OID 17611)
+-- Name: enum_supply_requests_status; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.enum_supply_requests_status AS ENUM (
+    'pendiente',
+    'aprobada',
+    'rechazada',
+    'entregada'
+);
+
+
+ALTER TYPE public.enum_supply_requests_status OWNER TO postgres;
+
+--
+-- TOC entry 851 (class 1247 OID 17556)
+-- Name: enum_users_role; Type: TYPE; Schema: public; Owner: postgres
+--
+
+CREATE TYPE public.enum_users_role AS ENUM (
+    'admin',
+    'gestor'
+);
+
+
+ALTER TYPE public.enum_users_role OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 220 (class 1259 OID 17575)
+-- Name: clinics; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.clinics (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    nit character varying(255) NOT NULL,
+    address character varying(255) NOT NULL,
+    phone character varying(255) NOT NULL,
+    responsible_name character varying(255) NOT NULL,
+    responsible_email character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "deletedAt" timestamp with time zone
+);
+
+
+ALTER TABLE public.clinics OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 17574)
+-- Name: clinics_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.clinics_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.clinics_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3483 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: clinics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.clinics_id_seq OWNED BY public.clinics.id;
+
+
+--
+-- TOC entry 224 (class 1259 OID 17596)
+-- Name: medications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.medications (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    description character varying(255) NOT NULL,
+    quantity integer DEFAULT 0 NOT NULL,
+    unit character varying(255) NOT NULL,
+    warehouse_id integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "deletedAt" timestamp with time zone
+);
+
+
+ALTER TABLE public.medications OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 17595)
+-- Name: medications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.medications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.medications_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3484 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: medications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.medications_id_seq OWNED BY public.medications.id;
+
+
+--
+-- TOC entry 226 (class 1259 OID 17620)
+-- Name: supply_requests; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.supply_requests (
+    id integer NOT NULL,
+    clinic_id integer NOT NULL,
+    warehouse_id integer,
+    medication_id integer NOT NULL,
+    quantity_requested integer NOT NULL,
+    status public.enum_supply_requests_status DEFAULT 'pendiente'::public.enum_supply_requests_status NOT NULL,
+    requested_by integer NOT NULL,
+    notes text,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "deletedAt" timestamp with time zone
+);
+
+
+ALTER TABLE public.supply_requests OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 17619)
+-- Name: supply_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.supply_requests_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.supply_requests_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3485 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: supply_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.supply_requests_id_seq OWNED BY public.supply_requests.id;
+
+
+--
+-- TOC entry 218 (class 1259 OID 17563)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    role public.enum_users_role DEFAULT 'gestor'::public.enum_users_role NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "deletedAt" timestamp with time zone
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 17561)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3486 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 222 (class 1259 OID 17586)
+-- Name: warehouses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.warehouses (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    location character varying(255) NOT NULL,
+    capacity integer DEFAULT 0 NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "deletedAt" timestamp with time zone
+);
+
+
+ALTER TABLE public.warehouses OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 17585)
+-- Name: warehouses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.warehouses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.warehouses_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3487 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: warehouses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.warehouses_id_seq OWNED BY public.warehouses.id;
+
+
+--
+-- TOC entry 3297 (class 2604 OID 17578)
+-- Name: clinics id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clinics ALTER COLUMN id SET DEFAULT nextval('public.clinics_id_seq'::regclass);
+
+
+--
+-- TOC entry 3300 (class 2604 OID 17599)
+-- Name: medications id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medications ALTER COLUMN id SET DEFAULT nextval('public.medications_id_seq'::regclass);
+
+
+--
+-- TOC entry 3302 (class 2604 OID 17623)
+-- Name: supply_requests id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.supply_requests ALTER COLUMN id SET DEFAULT nextval('public.supply_requests_id_seq'::regclass);
+
+
+--
+-- TOC entry 3295 (class 2604 OID 17566)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 3298 (class 2604 OID 17589)
+-- Name: warehouses id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.warehouses ALTER COLUMN id SET DEFAULT nextval('public.warehouses_id_seq'::regclass);
+
+
+--
+-- TOC entry 3469 (class 0 OID 17575)
+-- Dependencies: 220
+-- Data for Name: clinics; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.clinics (id, name, nit, address, phone, responsible_name, responsible_email, "createdAt", "updatedAt", "deletedAt") FROM stdin;
+1	Clínica Vida y Salud	900123456-1	Av. Principal #34-21, Bogotá	3001234567	Dr. Carlos Rodríguez	c.rodriguez@vidaysalud.com	2026-08-31 16:09:36.412+00	2026-08-31 16:09:36.412+00	\N
+2	Centro Médico Los Andes	800987654-2	Calle 45 #12-88, Medellín	3129876543	Dra. María Fernández	m.fernandez@losandes.com	2026-08-31 16:09:36.422+00	2026-08-31 16:09:36.422+00	\N
+3	Hospital Regional Riwi	700555333-3	Carrera 10 #5-20, Cali	3154445555	Dr. Andrés Gómez	a.gomez@hospitalriwi.org	2026-08-31 16:09:36.425+00	2026-08-31 16:09:36.425+00	\N
+\.
+
+
+--
+-- TOC entry 3473 (class 0 OID 17596)
+-- Dependencies: 224
+-- Data for Name: medications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.medications (id, name, description, quantity, unit, warehouse_id, "createdAt", "updatedAt", "deletedAt") FROM stdin;
+1	Paracetamol (Acetaminofén)	Analgésico y antipirético de 500mg	10000	mg	1	2026-08-31 16:10:32.537+00	2026-08-31 16:10:32.537+00	\N
+2	Ibuprofeno	Antiinflamatorio no esteroideo de 400mg	5000	mg	1	2026-08-31 16:10:32.543+00	2026-08-31 16:10:32.543+00	\N
+3	Amoxicilina	Antibiótico de amplio espectro, cápsulas de 500mg	2500	mg	2	2026-08-31 16:10:32.546+00	2026-08-31 16:10:32.546+00	\N
+4	Loratadina	Antihistamínico para alergias leves 10mg	4000	mg	1	2026-08-31 16:10:32.55+00	2026-08-31 16:10:32.55+00	\N
+\.
+
+
+--
+-- TOC entry 3475 (class 0 OID 17620)
+-- Dependencies: 226
+-- Data for Name: supply_requests; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.supply_requests (id, clinic_id, warehouse_id, medication_id, quantity_requested, status, requested_by, notes, "createdAt", "updatedAt", "deletedAt") FROM stdin;
+1	1	\N	3	100	pendiente	1	Urgente para UCI	2026-08-31 16:12:50.363+00	2026-08-31 16:12:50.363+00	\N
+\.
+
+
+--
+-- TOC entry 3467 (class 0 OID 17563)
+-- Dependencies: 218
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, name, email, password, role, "createdAt", "updatedAt", "deletedAt") FROM stdin;
+1	Juan Pérez	juan@riwi.com	$2b$10$lCtJ/yiYAKHwVD0No.DKiugZ2Wpga1bdHHkF82aJGeQjkThtIiGjC	admin	2026-08-31 16:08:12.023+00	2026-08-31 16:08:12.023+00	\N
+2	Administrador General	admin@riwi.com	$2b$10$XjU/6HPuY.BC1Ldu3bmaLORc0eIYT8U3M3RGFnDwJiiOtnk4CpKlK	admin	2026-08-31 16:09:11.555+00	2026-08-31 16:09:11.555+00	\N
+3	Gestor Operativo	gestor@riwi.com	$2b$10$O4RsJX870MMy9IurTOOQhuVis5AzFRBJadTna0UO4DGkJQ/6R.KtG	gestor	2026-08-31 16:09:11.625+00	2026-08-31 16:09:11.625+00	\N
+\.
+
+
+--
+-- TOC entry 3471 (class 0 OID 17586)
+-- Dependencies: 222
+-- Data for Name: warehouses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.warehouses (id, name, location, capacity, "createdAt", "updatedAt", "deletedAt") FROM stdin;
+1	Bodega Principal Norte	Zona Industrial Norte, Bogotá	50000	2026-08-31 16:10:21.136+00	2026-08-31 16:10:21.136+00	\N
+2	Bodega Secundaria Sur	Vía Panamericana, Cali	20000	2026-08-31 16:10:21.142+00	2026-08-31 16:10:21.142+00	\N
+\.
+
+
+--
+-- TOC entry 3488 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: clinics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.clinics_id_seq', 3, true);
+
+
+--
+-- TOC entry 3489 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: medications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.medications_id_seq', 4, true);
+
+
+--
+-- TOC entry 3490 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: supply_requests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.supply_requests_id_seq', 1, true);
+
+
+--
+-- TOC entry 3491 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 3, true);
+
+
+--
+-- TOC entry 3492 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: warehouses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.warehouses_id_seq', 2, true);
+
+
+--
+-- TOC entry 3309 (class 2606 OID 17584)
+-- Name: clinics clinics_nit_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clinics
+    ADD CONSTRAINT clinics_nit_key UNIQUE (nit);
+
+
+--
+-- TOC entry 3311 (class 2606 OID 17582)
+-- Name: clinics clinics_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.clinics
+    ADD CONSTRAINT clinics_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3315 (class 2606 OID 17604)
+-- Name: medications medications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medications
+    ADD CONSTRAINT medications_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3317 (class 2606 OID 17628)
+-- Name: supply_requests supply_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.supply_requests
+    ADD CONSTRAINT supply_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3305 (class 2606 OID 17573)
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 3307 (class 2606 OID 17571)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3313 (class 2606 OID 17594)
+-- Name: warehouses warehouses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.warehouses
+    ADD CONSTRAINT warehouses_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3318 (class 2606 OID 17605)
+-- Name: medications medications_warehouse_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.medications
+    ADD CONSTRAINT medications_warehouse_id_fkey FOREIGN KEY (warehouse_id) REFERENCES public.warehouses(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3319 (class 2606 OID 17629)
+-- Name: supply_requests supply_requests_clinic_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.supply_requests
+    ADD CONSTRAINT supply_requests_clinic_id_fkey FOREIGN KEY (clinic_id) REFERENCES public.clinics(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3320 (class 2606 OID 17639)
+-- Name: supply_requests supply_requests_medication_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.supply_requests
+    ADD CONSTRAINT supply_requests_medication_id_fkey FOREIGN KEY (medication_id) REFERENCES public.medications(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3321 (class 2606 OID 17644)
+-- Name: supply_requests supply_requests_requested_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.supply_requests
+    ADD CONSTRAINT supply_requests_requested_by_fkey FOREIGN KEY (requested_by) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3322 (class 2606 OID 17634)
+-- Name: supply_requests supply_requests_warehouse_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.supply_requests
+    ADD CONSTRAINT supply_requests_warehouse_id_fkey FOREIGN KEY (warehouse_id) REFERENCES public.warehouses(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3482 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+
+
+-- Completed on 2026-08-31 16:52:12 UTC
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict gkZcIUwDdMXqv0ZZ8QLJJihFiVMgdOGjsCaCvj0qTovFoqgLsxJbHbqyDfQ5c3y
+
