@@ -2,6 +2,11 @@ import { Request, Response } from "express";
 import * as authService from "../services/auth.service";
 import { AuthRequest } from "../middlewares/jwt.middleware";
 
+/**
+ * Controlador de registro de usuarios.
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const register = async (req: Request, res: Response) => {
     try {
         const result = await authService.register(req.body);
@@ -12,6 +17,11 @@ export const register = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * Controlador de inicio de sesión.
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const login = async (req: Request, res: Response) => {
     try {
         const result = await authService.login(req.body);
@@ -22,6 +32,11 @@ export const login = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * Controlador para obtener perfil personal protegido.
+ * @param {AuthRequest} req
+ * @param {Response} res
+ */
 export const me = async (req: AuthRequest, res: Response) => {
     res.status(200).json({ success: true, user: req.user });
 };

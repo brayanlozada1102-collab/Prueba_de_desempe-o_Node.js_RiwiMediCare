@@ -60,6 +60,11 @@ const seeders: Record<Entity, (records: any[]) => Promise<number>> = {
     },
 };
 
+/**
+ * Controlador masivo de seeder via FormData JSON.
+ * @param {AuthRequest} req - Petición autorizada con params.entity y Multer File
+ * @param {Response} res
+ */
 export const seed = async (req: AuthRequest, res: Response) => {
     try {
         const entity = req.params.entity as Entity;

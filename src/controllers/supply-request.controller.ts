@@ -3,6 +3,11 @@ import * as service from "../services/supply-request.service";
 import { AuthRequest } from "../middlewares/jwt.middleware";
 import { RequestStatus } from "../models/supply-request.model";
 
+/**
+ * Obtiene todos los registros de solicitud.
+ * @param {Request} req - Express Request.
+ * @param {Response} res - Express Response.
+ */
 export const getAll = async (_req: AuthRequest, res: Response) => {
     try {
         const data = await service.getAll();
@@ -33,6 +38,11 @@ export const getByClinic = async (req: AuthRequest, res: Response) => {
     }
 };
 
+/**
+ * Consulta un(a) solicitud por su ID.
+ * @param {Request} req - Express Request.
+ * @param {Response} res - Express Response.
+ */
 export const getById = async (req: AuthRequest, res: Response) => {
     try {
         const data = await service.getById(Number(req.params.id));
@@ -43,6 +53,11 @@ export const getById = async (req: AuthRequest, res: Response) => {
     }
 };
 
+/**
+ * Crea un nuevo registro de solicitud.
+ * @param {Request} req - Express Request.
+ * @param {Response} res - Express Response.
+ */
 export const create = async (req: AuthRequest, res: Response) => {
     try {
         const data = await service.create({
