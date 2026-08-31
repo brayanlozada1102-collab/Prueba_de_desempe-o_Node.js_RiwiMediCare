@@ -56,13 +56,16 @@ CREATE DATABASE riwi_base_db;
 Debes crear un archivo `.env` en la raíz del proyecto. Este es un ejemplo de su formato:
 ```env
 PORT=3000
+NODE_ENV=development
+
 DB_HOST=localhost
 DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=admin
 DB_NAME=riwi_base_db
-JWT_SECRET=riwi_super_secreto_2026
-JWT_EXPIRES_IN=2h
+DB_USER=postgres
+DB_PASSWORD=postgres
+
+JWT_SECRET=cambia_esto_por_un_secreto_fuerte
+JWT_EXPIRES_IN=1d
 ```
 
 ## Ejecución del Proyecto
