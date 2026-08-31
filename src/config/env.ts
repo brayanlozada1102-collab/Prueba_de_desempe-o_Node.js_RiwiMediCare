@@ -2,6 +2,29 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const requiredEnvVars = [
+    "PORT",
+    "DB_HOST",
+    "DB_PORT",
+    "DB_NAME",
+    "DB_USER",
+    "DB_PASSWORD",
+    "JWT_SECRET",
+    "JWT_EXPIRES_IN",
+];
+
+const validateEnv = (): void => {
+    const missing = requiredEnvVars.filter((key) => !process.env[key]);
+
+    if (missing.length > 0) {
+        throw new Error(
+            `Faltan variables de entorno requeridas: ${missing.join(", ")}. Revisa tu archivo .env`
+        );
+    }
+};
+
+validateEnv();
+
 export const env = {
     port: process.env.PORT || 3000,
     nodeEnv: process.env.NODE_ENV || "development",
