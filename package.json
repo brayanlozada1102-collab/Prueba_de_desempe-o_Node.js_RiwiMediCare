@@ -1,0 +1,31 @@
+{
+  "name": "prueba_de_desempe-o_node.js_riwimedicare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",    
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brayanlozada1102-collab/Prueba_de_desempe-o_Node.js_RiwiMediCare.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brayanlozada1102-collab/Prueba_de_desempe-o_Node.js_RiwiMediCare/issues"
+  },
+  "homepage": "https://github.com/brayanlozada1102-collab/Prueba_de_desempe-o_Node.js_RiwiMediCare#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.4.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.3"
+  }
+}
