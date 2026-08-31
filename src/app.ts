@@ -1,4 +1,6 @@
 import express, { Application } from "express";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 import authRoutes from "./routes/auth.routes";
 import clinicRoutes from "./routes/clinic.routes";
 import warehouseRoutes from "./routes/warehouse.routes";
@@ -17,6 +19,11 @@ export const createApp = (): Application => {
     app.get("/health", (_req, res) => {
         res.json({ status: "ok", uptime: process.uptime() });
     });
+
+    // ── Documentación Swagger ─────────────────────────────────────────────────
+    app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+        customSiteTitle: "RiwiMediCare API Docs",
+    }));
 
     // ── Auth (públicas) ───────────────────────────────────────────────────────
     app.use("/api/auth", authRoutes);
