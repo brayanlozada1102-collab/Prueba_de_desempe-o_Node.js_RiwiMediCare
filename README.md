@@ -35,7 +35,7 @@ src/
 
 1. Clona el repositorio
 ```bash
-git clone [URL_DE_TU_REPOSITORIO]
+git clone https://github.com/brayanlozada1102-collab/Prueba_de_desempe-o_Node.js_RiwiMediCare.git
 cd Prueba_de_desempe-o_Node.js_RiwiMediCare
 ```
 
@@ -81,29 +81,32 @@ Documentación: http://localhost:3000/api/docs
 
 ## Cómo Ejecutar los Seeders (Carga Masiva de JSON)
 
-El sistema cuenta con un *endpoint* protegido para que los **Adminstradores** puedan cargar grandes cantidades de datos inicialmente (clinicas, usuarios, medicamentos, almacenes).
+El sistema cuenta con un *endpoint* protegido para que los **Administradores** puedan cargar grandes cantidades de datos inicialmente (clinicas, usuarios, medicamentos, almacenes). En la raíz del proyecto está la carpeta `seeders/`, la cual contiene 4 archivos JSON listos y configurados para poblar de inmediato toda la base de datos sin errores ni conflictos:
+- `seeders/users.json`
+- `seeders/clinics.json`
+- `seeders/warehouses.json`
+- `seeders/medications.json`
 
-- **URL:** `POST http://localhost:3000/api/seed/:entity`
-- **Rutas de Entidades Válidas:** `/api/seed/users`, `/api/seed/clinics`, `/api/seed/warehouses`, `/api/seed/medications`
+**Ruta API:** `POST http://localhost:3000/api/seed/:entity` *(entidades válidas: users, clinics, warehouses, medications)*
 
-### Ejemplo con cURL (Subida de un JSON Form Data):
+### Ejemplo en Swagger (Recomendado):
+1. Navega a `http://localhost:3000/api/docs`
+2. Autentícate en el botón **Authorize** (puedes crear un usuario por JSON o usar `/api/auth/register` primero para sacar tu Token Admin).
+3. Abre el Tag **Seeder** y expande el endpoint `POST /api/seed/{entity}`.
+4. Selecciona la entidad (por ejemplo `clinics`).
+5. En el parámetro `file` selecciona `Choose file` y escoge el archivo dentro de tu carpeta `seeders/clinics.json`.
+6. Haz clic en Execute.
 
-Primero, obtén tu JWT (debes inciar sesión con una cuenta admin):
+### Ejemplo con cURL (Línea de Comandos):
+
+Primero, obtén tu JWT de admin:
 ```bash
 TOKEN="tu_token_aqui"
 ```
 
-Luego, envía el archivo con formato `multipart/form-data`:
+Luego, envía el archivo adjunto como `multipart/form-data`:
 ```bash
 curl -X POST http://localhost:3000/api/seed/clinics \
   -H "Authorization: Bearer $TOKEN" \
-  -F "file=@/ruta/a/tu/archivo/clinics.json"
+  -F "file=@./seeders/clinics.json"
 ```
-
-### Ejemplo en Swagger:
-1. Navega a `http://localhost:3000/api/docs`
-2. Autentícate en el botón **Authorize**
-3. Abre el Tag **Seeder** y expande `POST /api/seed/{entity}`
-4. Selecciona la entidad (por ejemplo `clinics`).
-5. En el parámetro `file` selecciona tu documento `.json` (desde tu PC).
-6. Ejecuta (Click en Execute).
