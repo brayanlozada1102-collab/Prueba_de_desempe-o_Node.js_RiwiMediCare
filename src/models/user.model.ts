@@ -6,7 +6,7 @@ export interface UserAttributes {
     name: string;
     email: string;
     password: string;
-    role: "admin" | "user";
+    role: "admin" | "gestor";
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -20,7 +20,7 @@ export class User
     public name!: string;
     public email!: string;
     public password!: string;
-    public role!: "admin" | "user";
+    public role!: "admin" | "gestor";
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
 }
@@ -47,9 +47,9 @@ User.init(
             allowNull: false,
         },
         role: {
-            type: DataTypes.ENUM("admin", "user"),
+            type: DataTypes.ENUM("admin", "gestor"),
             allowNull: false,
-            defaultValue: "user",
+            defaultValue: "gestor",
         },
     },
     {
