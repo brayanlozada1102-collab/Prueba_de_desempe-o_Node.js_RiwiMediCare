@@ -6,9 +6,9 @@ const router = Router();
 
 /**
  * POST /api/seed/:entity
- * Entidades soportadas: users | clinics | warehouses | medications
- * Body: multipart/form-data con campo "file" conteniendo un archivo JSON
- * Requiere: admin token
+ * Supported entities: users | clinics | warehouses | medications
+ * Body: multipart/form-data with "file" field containing a JSON file
+ * Requires: Admin JWT token
  */
 router.post(
     "/:entity",

@@ -1,4 +1,4 @@
 [
-  { "name": "Administrador General", "email": "admin@riwi.com", "password": "admin", "role": "admin" },
-  { "name": "Gestor Operativo", "email": "gestor@riwi.com", "password": "gestor", "role": "gestor" }
+  { "name": "System Administrator", "email": "admin@riwimedicare.com", "password": "password123", "role": "admin" },
+  { "name": "Operations Manager", "email": "manager@riwimedicare.com", "password": "password123", "role": "gestor" }
 ]

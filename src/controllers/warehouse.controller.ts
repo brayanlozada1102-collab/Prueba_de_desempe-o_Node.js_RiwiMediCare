@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as service from "../services/warehouse.service";
 
 /**
- * Obtiene todos los registros de almacén.
+ * Retrieves all warehouse records.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -17,7 +17,7 @@ export const getAll = async (_req: Request, res: Response) => {
 };
 
 /**
- * Consulta un(a) almacén por su ID.
+ * Retrieves a warehouse by its ID.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -32,7 +32,7 @@ export const getById = async (req: Request, res: Response) => {
 };
 
 /**
- * Crea un nuevo registro de almacén.
+ * Creates a new warehouse record.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -47,14 +47,14 @@ export const create = async (req: Request, res: Response) => {
 };
 
 /**
- * Actualiza parcialmente un(a) almacén.
+ * Updates a warehouse partially.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
 export const update = async (req: Request, res: Response) => {
     try {
         await service.update(Number(req.params.id), req.body);
-        res.json({ success: true, message: "Almacén actualizado" });
+        res.json({ success: true, message: "Warehouse updated successfully" });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Error";
         res.status(400).json({ success: false, message });
@@ -62,14 +62,14 @@ export const update = async (req: Request, res: Response) => {
 };
 
 /**
- * Elimina un(a) almacén del sistema.
+ * Deletes a warehouse from the system.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
 export const remove = async (req: Request, res: Response) => {
     try {
         await service.remove(Number(req.params.id));
-        res.json({ success: true, message: "Almacén eliminado" });
+        res.json({ success: true, message: "Warehouse deleted successfully" });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Error";
         res.status(400).json({ success: false, message });

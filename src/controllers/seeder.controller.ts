@@ -7,14 +7,14 @@ import { Clinic } from "../models/clinic.model";
 import { Warehouse } from "../models/warehouse.model";
 import { Medication } from "../models/medication.model";
 
-// Multer: almacena el archivo en memoria como Buffer
+// Multer: in-memory storage buffer for processing uploaded JSON files
 export const upload = multer({
     storage: multer.memoryStorage(),
     fileFilter: (_req, file, cb) => {
         if (file.mimetype === "application/json" || file.originalname.endsWith(".json")) {
             cb(null, true);
         } else {
-            cb(new Error("Solo se permiten archivos JSON"));
+            cb(new Error("Only JSON files are allowed"));
         }
     },
 });
@@ -61,8 +61,8 @@ const seeders: Record<Entity, (records: any[]) => Promise<number>> = {
 };
 
 /**
- * Controlador masivo de seeder via FormData JSON.
- * @param {AuthRequest} req - Petición autorizada con params.entity y Multer File
+ * Bulk JSON seeder controller.
+ * @param {AuthRequest} req - Authorized request containing entity param and Multer File
  * @param {Response} res
  */
 export const seed = async (req: AuthRequest, res: Response) => {
@@ -72,13 +72,13 @@ export const seed = async (req: AuthRequest, res: Response) => {
         if (!Object.keys(seeders).includes(entity)) {
             res.status(400).json({
                 success: false,
-                message: `Entidad inválida. Use: ${Object.keys(seeders).join(", ")}`,
+                message: `Invalid entity. Use: ${Object.keys(seeders).join(", ")}`,
             });
             return;
         }
 
         if (!req.file) {
-            res.status(400).json({ success: false, message: "Archivo JSON requerido" });
+            res.status(400).json({ success: false, message: "JSON file required" });
             return;
         }
 
@@ -86,12 +86,12 @@ export const seed = async (req: AuthRequest, res: Response) => {
         try {
             records = JSON.parse(req.file.buffer.toString("utf-8"));
         } catch {
-            res.status(400).json({ success: false, message: "El archivo no es un JSON válido" });
+            res.status(400).json({ success: false, message: "File is not valid JSON" });
             return;
         }
 
         if (!Array.isArray(records)) {
-            res.status(400).json({ success: false, message: "El JSON debe ser un array de objetos" });
+            res.status(400).json({ success: false, message: "JSON payload must be an array of objects" });
             return;
         }
 
@@ -99,12 +99,12 @@ export const seed = async (req: AuthRequest, res: Response) => {
 
         res.status(200).json({
             success: true,
-            message: `Seeder ejecutado: ${inserted} registros insertados en "${entity}"`,
+            message: `Seeder executed: ${inserted} records inserted into "${entity}"`,
             total_received: records.length,
             inserted,
         });
     } catch (error) {
-        const message = error instanceof Error ? error.message : "Error en seeder";
+        const message = error instanceof Error ? error.message : "Error during seeding";
         res.status(500).json({ success: false, message });
     }
 };

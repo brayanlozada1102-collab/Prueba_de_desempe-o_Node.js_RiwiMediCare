@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 export interface JwtPayload {
     id: number;
     email: string;
-    role: "admin" | "user";
+    role: "admin" | "gestor";
 }
 
 export interface AuthRequest extends Request {
@@ -19,7 +19,7 @@ export const verifyToken = (
     const authHeader = req.headers["authorization"];
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        res.status(401).json({ success: false, message: "Token requerido" });
+        res.status(401).json({ success: false, message: "Authentication token required" });
         return;
     }
 
@@ -27,7 +27,7 @@ export const verifyToken = (
     const secret = process.env.JWT_SECRET;
 
     if (!secret) {
-        res.status(500).json({ success: false, message: "JWT_SECRET no configurado" });
+        res.status(500).json({ success: false, message: "JWT_SECRET environment variable is not configured" });
         return;
     }
 
@@ -36,7 +36,7 @@ export const verifyToken = (
         req.user = decoded;
         next();
     } catch {
-        res.status(401).json({ success: false, message: "Token inválido o expirado" });
+        res.status(401).json({ success: false, message: "Invalid or expired token" });
     }
 };
 
@@ -46,7 +46,7 @@ export const verifyAdmin = (
     next: NextFunction
 ): void => {
     if (!req.user || req.user.role !== "admin") {
-        res.status(403).json({ success: false, message: "Acceso denegado: se requiere rol admin" });
+        res.status(403).json({ success: false, message: "Access denied: administrator role required" });
         return;
     }
     next();

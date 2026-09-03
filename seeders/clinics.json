@@ -1,26 +1,26 @@
 [
   { 
-    "name": "Clínica Vida y Salud", 
+    "name": "Life & Health Medical Center", 
     "nit": "900123456-1", 
-    "address": "Av. Principal #34-21, Bogotá", 
-    "phone": "3001234567", 
-    "responsible_name": "Dr. Carlos Rodríguez", 
-    "responsible_email": "c.rodriguez@vidaysalud.com" 
+    "address": "123 Healthcare Ave, Suite 400", 
+    "phone": "+1 555-0199", 
+    "responsible_name": "Dr. Robert Smith", 
+    "responsible_email": "rsmith@lifehealthmed.org" 
   },
   { 
-    "name": "Centro Médico Los Andes", 
+    "name": "St. Jude Community Hospital", 
     "nit": "800987654-2", 
-    "address": "Calle 45 #12-88, Medellín", 
-    "phone": "3129876543", 
-    "responsible_name": "Dra. María Fernández", 
-    "responsible_email": "m.fernandez@losandes.com" 
+    "address": "742 Evergreen Terrace", 
+    "phone": "+1 555-0245", 
+    "responsible_name": "Dr. Maria Fernandez", 
+    "responsible_email": "mfernandez@stjudehospital.org" 
   },
   { 
-    "name": "Hospital Regional Riwi", 
+    "name": "Riwi Regional Hospital", 
     "nit": "700555333-3", 
-    "address": "Carrera 10 #5-20, Cali", 
-    "phone": "3154445555", 
-    "responsible_name": "Dr. Andrés Gómez", 
-    "responsible_email": "a.gomez@hospitalriwi.org" 
+    "address": "500 Innovation Blvd", 
+    "phone": "+1 555-0312", 
+    "responsible_name": "Dr. Andrew Gomez", 
+    "responsible_email": "agomez@riwihospital.org" 
   }
 ]

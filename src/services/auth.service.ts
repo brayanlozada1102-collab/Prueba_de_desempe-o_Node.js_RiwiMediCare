@@ -16,17 +16,17 @@ interface LoginInput {
 }
 
 /**
- * Registra un nuevo usuario en la base de datos (Admin o Gestor).
- * Encripta la contraseña de forma segura usando bcrypt.
- * @param {RegisterInput} data Entidad con los datos del usuario a crear.
- * @returns {Promise<Partial<User>>} Promesa con la respuesta del usuario (sin password).
- * @throws {Error} Si el correo electrónico ya se encuentra reservado.
+ * Registers a new user in the database (Admin or Manager/Gestor).
+ * Securely hashes the password using bcrypt with 10 salt rounds.
+ * @param {RegisterInput} data User data payload.
+ * @returns {Promise<Partial<User>>} User response object without password.
+ * @throws {Error} If the email is already registered.
  */
 export const register = async (data: RegisterInput) => {
     const existing = await userRepository.findByEmail(data.email);
 
     if (existing) {
-        throw new Error("Ya existe un usuario con ese correo");
+        throw new Error("A user with that email already exists");
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -45,22 +45,22 @@ export const register = async (data: RegisterInput) => {
 };
 
 /**
- * Autentica un usuario en el sistema.
- * @param {LoginInput} data Credenciales del usuario (email y contraseña).
- * @returns {Promise<{token: string, user: Partial<User>}>} Objeto con el Access Token JWT y la data del usuario logueado.
- * @throws {Error} Cuando el correo o la contraseña son incorrectos.
+ * Authenticates a user and generates a signed JWT token.
+ * @param {LoginInput} data User login credentials (email and password).
+ * @returns {Promise<{token: string, user: Partial<User>}>} Object containing JWT token and user info.
+ * @throws {Error} If credentials do not match.
  */
 export const login = async (data: LoginInput) => {
     const user = await userRepository.findByEmail(data.email);
 
     if (!user) {
-        throw new Error("Credenciales inválidas");
+        throw new Error("Invalid credentials");
     }
 
     const isMatch = await bcrypt.compare(data.password, user.password);
 
     if (!isMatch) {
-        throw new Error("Credenciales inválidas");
+        throw new Error("Invalid credentials");
     }
 
     const token = jwt.sign(

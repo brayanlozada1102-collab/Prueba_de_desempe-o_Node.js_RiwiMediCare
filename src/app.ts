@@ -7,7 +7,7 @@ import warehouseRoutes from "./routes/warehouse.routes";
 import medicationRoutes from "./routes/medication.routes";
 import supplyRequestRoutes from "./routes/supply-request.routes";
 import seederRoutes from "./routes/seeder.routes";
-import { verifyToken, verifyAdmin, AuthRequest } from "./middlewares/jwt.middleware";
+import { verifyToken, AuthRequest } from "./middlewares/jwt.middleware";
 import * as supplyRequestController from "./controllers/supply-request.controller";
 
 export const createApp = (): Application => {
@@ -15,36 +15,36 @@ export const createApp = (): Application => {
 
     app.use(express.json());
 
-    // ── Health check ─────────────────────────────────────────────────────────
+    // ── Health Check ──────────────────────────────────────────────────────────
     app.get("/health", (_req, res) => {
         res.json({ status: "ok", uptime: process.uptime() });
     });
 
-    // ── Documentación Swagger ─────────────────────────────────────────────────
+    // ── Swagger API Documentation ─────────────────────────────────────────────
     app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
         customSiteTitle: "RiwiMediCare API Docs",
     }));
 
-    // ── Auth (públicas) ───────────────────────────────────────────────────────
+    // ── Authentication (Public) ───────────────────────────────────────────────
     app.use("/api/auth", authRoutes);
 
-    // ── Clínicas ──────────────────────────────────────────────────────────────
+    // ── Clinics ───────────────────────────────────────────────────────────────
     app.use("/api/clinics", clinicRoutes);
 
-    // Historial de solicitudes por clínica
+    // Clinic supply request history
     app.get(
         "/api/clinics/:clinicId/requests",
         verifyToken,
         (req, res) => supplyRequestController.getByClinic(req as AuthRequest, res)
     );
 
-    // ── Almacenes ─────────────────────────────────────────────────────────────
+    // ── Warehouses ────────────────────────────────────────────────────────────
     app.use("/api/warehouses", warehouseRoutes);
 
-    // ── Medicamentos ──────────────────────────────────────────────────────────
+    // ── Medications ───────────────────────────────────────────────────────────
     app.use("/api/medications", medicationRoutes);
 
-    // ── Solicitudes de abastecimiento ─────────────────────────────────────────
+    // ── Supply Requests ───────────────────────────────────────────────────────
     app.use("/api/requests", supplyRequestRoutes);
 
     // ── Seeder (Admin) ────────────────────────────────────────────────────────

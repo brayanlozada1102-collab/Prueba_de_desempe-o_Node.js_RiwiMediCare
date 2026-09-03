@@ -18,7 +18,7 @@ const validateEnv = (): void => {
 
     if (missing.length > 0) {
         throw new Error(
-            `Faltan variables de entorno requeridas: ${missing.join(", ")}. Revisa tu archivo .env`
+            `Missing required environment variables: ${missing.join(", ")}. Please check your .env file`
         );
     }
 };

@@ -8,13 +8,13 @@ const PORT = process.env.PORT || 3000;
 const startServer = async () => {
     await testConnection();
 
-    // force: false → crea tablas que no existen, no modifica las existentes
-    // Evita el error de Sequelize al intentar alterar FK constraints en PostgreSQL
+    // force: false → creates tables that do not exist, does not alter existing ones
+    // Avoids Sequelize errors when attempting to alter FK constraints in PostgreSQL
     await sequelize.sync({ force: false });
 
     app.listen(PORT, () => {
-        console.log(`Servidor corriendo en http://localhost:${PORT}`);
-        console.log(`Documentación: http://localhost:${PORT}/api/docs`);
+        console.log(`Server running on http://localhost:${PORT}`);
+        console.log(`API Documentation: http://localhost:${PORT}/api/docs`);
     });
 };
 

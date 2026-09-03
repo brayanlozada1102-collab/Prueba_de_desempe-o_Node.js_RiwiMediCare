@@ -8,11 +8,11 @@ const options: swaggerJsdoc.Options = {
             title: "RiwiMediCare API",
             version: "1.0.0",
             description:
-                "API REST para administrar el ciclo de vida de las solicitudes de abastecimiento de medicamentos. Permite gestionar clínicas, almacenes, medicamentos y solicitudes con autenticación JWT.",
+                "RESTful API to manage the lifecycle of medical supply requests. Allows management of clinics, warehouses, medications, and supply requests with JWT authentication.",
             contact: { name: "RiwiMediCare Dev Team" },
         },
         servers: [
-            { url: `http://localhost:${env.port}`, description: "Servidor local" },
+            { url: `http://localhost:${env.port}`, description: "Local Development Server" },
         ],
         components: {
             securitySchemes: {
@@ -20,7 +20,7 @@ const options: swaggerJsdoc.Options = {
                     type: "http",
                     scheme: "bearer",
                     bearerFormat: "JWT",
-                    description: "Ingresa el token JWT obtenido del endpoint /api/auth/login",
+                    description: "Enter the JWT token obtained from the /api/auth/login endpoint",
                 },
             },
             schemas: {
@@ -29,9 +29,9 @@ const options: swaggerJsdoc.Options = {
                     type: "object",
                     required: ["name", "email", "password"],
                     properties: {
-                        name: { type: "string", example: "Juan Pérez" },
-                        email: { type: "string", format: "email", example: "juan@riwi.com" },
-                        password: { type: "string", minLength: 6, example: "secreto123" },
+                        name: { type: "string", example: "John Doe" },
+                        email: { type: "string", format: "email", example: "john@riwimedicare.com" },
+                        password: { type: "string", minLength: 6, example: "securePass123" },
                         role: { type: "string", enum: ["admin", "gestor"], default: "gestor" },
                     },
                 },
@@ -39,16 +39,16 @@ const options: swaggerJsdoc.Options = {
                     type: "object",
                     required: ["email", "password"],
                     properties: {
-                        email: { type: "string", format: "email", example: "juan@riwi.com" },
-                        password: { type: "string", example: "secreto123" },
+                        email: { type: "string", format: "email", example: "john@riwimedicare.com" },
+                        password: { type: "string", example: "securePass123" },
                     },
                 },
                 UserResponse: {
                     type: "object",
                     properties: {
                         id: { type: "integer", example: 1 },
-                        name: { type: "string", example: "Juan Pérez" },
-                        email: { type: "string", example: "juan@riwi.com" },
+                        name: { type: "string", example: "John Doe" },
+                        email: { type: "string", example: "john@riwimedicare.com" },
                         role: { type: "string", enum: ["admin", "gestor"] },
                     },
                 },
@@ -57,12 +57,12 @@ const options: swaggerJsdoc.Options = {
                     type: "object",
                     required: ["name", "nit", "address", "phone", "responsible_name", "responsible_email"],
                     properties: {
-                        name: { type: "string", example: "Clínica Norte" },
-                        nit: { type: "string", example: "900123456-1", description: "NIT único de la clínica" },
-                        address: { type: "string", example: "Calle 10 #23-45" },
-                        phone: { type: "string", example: "3001234567" },
-                        responsible_name: { type: "string", example: "Dr. García" },
-                        responsible_email: { type: "string", format: "email", example: "garcia@norte.com" },
+                        name: { type: "string", example: "North Central Clinic" },
+                        nit: { type: "string", example: "900123456-1", description: "Unique Tax ID (NIT) of the clinic" },
+                        address: { type: "string", example: "123 Healthcare Ave, Suite 400" },
+                        phone: { type: "string", example: "+1 555-0199" },
+                        responsible_name: { type: "string", example: "Dr. Robert Smith" },
+                        responsible_email: { type: "string", format: "email", example: "rsmith@northclinic.com" },
                     },
                 },
                 Clinic: {
@@ -83,9 +83,9 @@ const options: swaggerJsdoc.Options = {
                     type: "object",
                     required: ["name", "location", "capacity"],
                     properties: {
-                        name: { type: "string", example: "Bodega Central" },
-                        location: { type: "string", example: "Bogotá, Zona Industrial" },
-                        capacity: { type: "integer", example: 5000 },
+                        name: { type: "string", example: "Central Medical Warehouse" },
+                        location: { type: "string", example: "Industrial Park, District 7" },
+                        capacity: { type: "integer", example: 50000 },
                     },
                 },
                 Warehouse: {
@@ -106,10 +106,10 @@ const options: swaggerJsdoc.Options = {
                     type: "object",
                     required: ["name", "description", "quantity", "unit", "warehouse_id"],
                     properties: {
-                        name: { type: "string", example: "Ibuprofeno" },
-                        description: { type: "string", example: "Antiinflamatorio de uso común" },
-                        quantity: { type: "integer", example: 500 },
-                        unit: { type: "string", example: "mg" },
+                        name: { type: "string", example: "Acetaminophen 500mg" },
+                        description: { type: "string", example: "Oral analgesic and antipyretic" },
+                        quantity: { type: "integer", example: 5000 },
+                        unit: { type: "string", example: "tablets" },
                         warehouse_id: { type: "integer", example: 1 },
                     },
                 },
@@ -132,9 +132,9 @@ const options: swaggerJsdoc.Options = {
                     required: ["clinic_id", "medication_id", "quantity_requested"],
                     properties: {
                         clinic_id: { type: "integer", example: 1 },
-                        medication_id: { type: "integer", example: 3 },
-                        quantity_requested: { type: "integer", example: 100 },
-                        notes: { type: "string", example: "Urgente para UCI" },
+                        medication_id: { type: "integer", example: 1 },
+                        quantity_requested: { type: "integer", example: 200 },
+                        notes: { type: "string", example: "Urgent emergency room restocking" },
                     },
                 },
                 SupplyRequest: {
@@ -142,16 +142,16 @@ const options: swaggerJsdoc.Options = {
                     properties: {
                         id: { type: "integer", example: 1 },
                         clinic_id: { type: "integer", example: 1 },
-                        warehouse_id: { type: "integer", nullable: true, example: 2 },
-                        medication_id: { type: "integer", example: 3 },
-                        quantity_requested: { type: "integer", example: 100 },
+                        warehouse_id: { type: "integer", nullable: true, example: 1 },
+                        medication_id: { type: "integer", example: 1 },
+                        quantity_requested: { type: "integer", example: 200 },
                         status: {
                             type: "string",
                             enum: ["pendiente", "aprobada", "rechazada", "entregada"],
                             example: "pendiente",
                         },
-                        requested_by: { type: "integer", example: 5 },
-                        notes: { type: "string", example: "Urgente para UCI" },
+                        requested_by: { type: "integer", example: 2 },
+                        notes: { type: "string", example: "Urgent emergency room restocking" },
                         createdAt: { type: "string", format: "date-time" },
                         updatedAt: { type: "string", format: "date-time" },
                     },
@@ -160,7 +160,7 @@ const options: swaggerJsdoc.Options = {
                     type: "object",
                     required: ["warehouse_id"],
                     properties: {
-                        warehouse_id: { type: "integer", example: 2 },
+                        warehouse_id: { type: "integer", example: 1 },
                     },
                 },
                 UpdateStatusInput: {
@@ -179,40 +179,40 @@ const options: swaggerJsdoc.Options = {
                     type: "object",
                     properties: {
                         success: { type: "boolean", example: true },
-                        message: { type: "string", example: "Operación exitosa" },
+                        message: { type: "string", example: "Operation completed successfully" },
                     },
                 },
                 ErrorResponse: {
                     type: "object",
                     properties: {
                         success: { type: "boolean", example: false },
-                        message: { type: "string", example: "Descripción del error" },
+                        message: { type: "string", example: "Error description message" },
                     },
                 },
             },
         },
         tags: [
-            { name: "Auth", description: "Registro, login y perfil de usuario" },
-            { name: "Clinics", description: "Gestión de clínicas y sus responsables" },
-            { name: "Warehouses", description: "Gestión de almacenes de medicamentos" },
-            { name: "Medications", description: "Inventario de medicamentos" },
-            { name: "SupplyRequests", description: "Solicitudes de abastecimiento" },
-            { name: "Seeder", description: "Carga masiva de datos iniciales (admin)" },
+            { name: "Auth", description: "User registration, authentication and profile" },
+            { name: "Clinics", description: "Management of healthcare clinics and contacts" },
+            { name: "Warehouses", description: "Management of distribution warehouses" },
+            { name: "Medications", description: "Pharmaceutical inventory and catalog" },
+            { name: "SupplyRequests", description: "Medical supply request lifecycle" },
+            { name: "Seeder", description: "Bulk JSON initial data import (Admin only)" },
         ],
         paths: {
             // ════════════════════════════ AUTH ════════════════════════════════
             "/api/auth/register": {
                 post: {
                     tags: ["Auth"],
-                    summary: "Registro de usuario",
-                    description: "Crea un nuevo usuario con rol admin o gestor. Endpoint público.",
+                    summary: "User registration",
+                    description: "Registers a new user with admin or gestor (manager) role. Public endpoint.",
                     requestBody: {
                         required: true,
                         content: { "application/json": { schema: { $ref: "#/components/schemas/RegisterInput" } } },
                     },
                     responses: {
                         201: {
-                            description: "Usuario creado exitosamente",
+                            description: "User successfully created",
                             content: {
                                 "application/json": {
                                     schema: {
@@ -225,22 +225,22 @@ const options: swaggerJsdoc.Options = {
                                 },
                             },
                         },
-                        400: { description: "El correo ya existe o datos inválidos", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
+                        400: { description: "Email already exists or invalid data", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
                     },
                 },
             },
             "/api/auth/login": {
                 post: {
                     tags: ["Auth"],
-                    summary: "Inicio de sesión",
-                    description: "Autentica un usuario y devuelve un JWT.",
+                    summary: "User login",
+                    description: "Authenticates a user and returns a signed JWT access token.",
                     requestBody: {
                         required: true,
                         content: { "application/json": { schema: { $ref: "#/components/schemas/LoginInput" } } },
                     },
                     responses: {
                         200: {
-                            description: "Login exitoso",
+                            description: "Login successful",
                             content: {
                                 "application/json": {
                                     schema: {
@@ -254,18 +254,18 @@ const options: swaggerJsdoc.Options = {
                                 },
                             },
                         },
-                        401: { description: "Credenciales inválidas", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
+                        401: { description: "Invalid credentials", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
                     },
                 },
             },
             "/api/auth/me": {
                 get: {
                     tags: ["Auth"],
-                    summary: "Perfil del usuario autenticado",
+                    summary: "Authenticated user profile",
                     security: [{ bearerAuth: [] }],
                     responses: {
                         200: {
-                            description: "Datos del usuario en el token",
+                            description: "Decoded token user information",
                             content: {
                                 "application/json": {
                                     schema: {
@@ -278,7 +278,7 @@ const options: swaggerJsdoc.Options = {
                                 },
                             },
                         },
-                        401: { description: "Token requerido o inválido", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
+                        401: { description: "Token required or invalid", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
                     },
                 },
             },
@@ -287,11 +287,11 @@ const options: swaggerJsdoc.Options = {
             "/api/clinics": {
                 get: {
                     tags: ["Clinics"],
-                    summary: "Listar todas las clínicas",
+                    summary: "List all clinics",
                     security: [{ bearerAuth: [] }],
                     responses: {
                         200: {
-                            description: "Lista de clínicas",
+                            description: "List of clinics",
                             content: {
                                 "application/json": {
                                     schema: {
@@ -304,68 +304,68 @@ const options: swaggerJsdoc.Options = {
                                 },
                             },
                         },
-                        401: { description: "No autorizado", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
+                        401: { description: "Unauthorized", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
                     },
                 },
                 post: {
                     tags: ["Clinics"],
-                    summary: "Crear clínica (admin)",
+                    summary: "Create a clinic (Admin)",
                     security: [{ bearerAuth: [] }],
                     requestBody: {
                         required: true,
                         content: { "application/json": { schema: { $ref: "#/components/schemas/ClinicInput" } } },
                     },
                     responses: {
-                        201: { description: "Clínica creada", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean", example: true }, data: { $ref: "#/components/schemas/Clinic" } } } } } },
-                        401: { description: "No autorizado" },
-                        403: { description: "Requiere rol admin" },
+                        201: { description: "Clinic created", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean", example: true }, data: { $ref: "#/components/schemas/Clinic" } } } } } },
+                        401: { description: "Unauthorized" },
+                        403: { description: "Admin role required" },
                     },
                 },
             },
             "/api/clinics/{id}": {
                 get: {
                     tags: ["Clinics"],
-                    summary: "Obtener clínica por ID",
+                    summary: "Get clinic by ID",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     responses: {
-                        200: { description: "Clínica encontrada", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Clinic" } } } } } },
-                        404: { description: "Clínica no encontrada", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
+                        200: { description: "Clinic found", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Clinic" } } } } } },
+                        404: { description: "Clinic not found", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
                     },
                 },
                 put: {
                     tags: ["Clinics"],
-                    summary: "Actualizar clínica (admin)",
+                    summary: "Update clinic (Admin)",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/ClinicInput" } } } },
                     responses: {
-                        200: { description: "Clínica actualizada", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
-                        403: { description: "Requiere rol admin" },
-                        404: { description: "Clínica no encontrada" },
+                        200: { description: "Clinic updated", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
+                        403: { description: "Admin role required" },
+                        404: { description: "Clinic not found" },
                     },
                 },
                 delete: {
                     tags: ["Clinics"],
-                    summary: "Eliminar clínica (admin)",
+                    summary: "Delete clinic (Admin)",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     responses: {
-                        200: { description: "Clínica eliminada", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
-                        403: { description: "Requiere rol admin" },
-                        404: { description: "Clínica no encontrada" },
+                        200: { description: "Clinic deleted", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
+                        403: { description: "Admin role required" },
+                        404: { description: "Clinic not found" },
                     },
                 },
             },
             "/api/clinics/{clinicId}/requests": {
                 get: {
                     tags: ["Clinics", "SupplyRequests"],
-                    summary: "Historial de solicitudes de una clínica",
+                    summary: "Supply request history for a clinic",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "clinicId", in: "path", required: true, schema: { type: "integer" } }],
                     responses: {
-                        200: { description: "Historial de solicitudes", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/SupplyRequest" } } } } } } },
-                        401: { description: "No autorizado" },
+                        200: { description: "Request history", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/SupplyRequest" } } } } } } },
+                        401: { description: "Unauthorized" },
                     },
                 },
             },
@@ -374,53 +374,53 @@ const options: swaggerJsdoc.Options = {
             "/api/warehouses": {
                 get: {
                     tags: ["Warehouses"],
-                    summary: "Listar almacenes",
+                    summary: "List all warehouses",
                     security: [{ bearerAuth: [] }],
                     responses: {
-                        200: { description: "Lista de almacenes", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/Warehouse" } } } } } } },
+                        200: { description: "List of warehouses", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/Warehouse" } } } } } } },
                     },
                 },
                 post: {
                     tags: ["Warehouses"],
-                    summary: "Crear almacén (admin)",
+                    summary: "Create a warehouse (Admin)",
                     security: [{ bearerAuth: [] }],
                     requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/WarehouseInput" } } } },
                     responses: {
-                        201: { description: "Almacén creado", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Warehouse" } } } } } },
-                        403: { description: "Requiere rol admin" },
+                        201: { description: "Warehouse created", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Warehouse" } } } } } },
+                        403: { description: "Admin role required" },
                     },
                 },
             },
             "/api/warehouses/{id}": {
                 get: {
                     tags: ["Warehouses"],
-                    summary: "Obtener almacén por ID",
+                    summary: "Get warehouse by ID",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     responses: {
-                        200: { description: "Almacén encontrado", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Warehouse" } } } } } },
-                        404: { description: "Almacén no encontrado" },
+                        200: { description: "Warehouse found", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Warehouse" } } } } } },
+                        404: { description: "Warehouse not found" },
                     },
                 },
                 put: {
                     tags: ["Warehouses"],
-                    summary: "Actualizar almacén (admin)",
+                    summary: "Update warehouse (Admin)",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/WarehouseInput" } } } },
                     responses: {
-                        200: { description: "Almacén actualizado", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
-                        403: { description: "Requiere rol admin" },
+                        200: { description: "Warehouse updated", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
+                        403: { description: "Admin role required" },
                     },
                 },
                 delete: {
                     tags: ["Warehouses"],
-                    summary: "Eliminar almacén (admin)",
+                    summary: "Delete warehouse (Admin)",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     responses: {
-                        200: { description: "Almacén eliminado", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
-                        403: { description: "Requiere rol admin" },
+                        200: { description: "Warehouse deleted", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
+                        403: { description: "Admin role required" },
                     },
                 },
             },
@@ -429,53 +429,53 @@ const options: swaggerJsdoc.Options = {
             "/api/medications": {
                 get: {
                     tags: ["Medications"],
-                    summary: "Listar medicamentos",
+                    summary: "List all medications",
                     security: [{ bearerAuth: [] }],
                     responses: {
-                        200: { description: "Lista de medicamentos con su almacén", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/Medication" } } } } } } },
+                        200: { description: "List of medications with warehouse details", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/Medication" } } } } } } },
                     },
                 },
                 post: {
                     tags: ["Medications"],
-                    summary: "Crear medicamento (admin)",
+                    summary: "Create medication (Admin)",
                     security: [{ bearerAuth: [] }],
                     requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/MedicationInput" } } } },
                     responses: {
-                        201: { description: "Medicamento creado", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Medication" } } } } } },
-                        403: { description: "Requiere rol admin" },
+                        201: { description: "Medication created", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Medication" } } } } } },
+                        403: { description: "Admin role required" },
                     },
                 },
             },
             "/api/medications/{id}": {
                 get: {
                     tags: ["Medications"],
-                    summary: "Obtener medicamento por ID",
+                    summary: "Get medication by ID",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     responses: {
-                        200: { description: "Medicamento encontrado", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Medication" } } } } } },
-                        404: { description: "Medicamento no encontrado" },
+                        200: { description: "Medication found", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/Medication" } } } } } },
+                        404: { description: "Medication not found" },
                     },
                 },
                 put: {
                     tags: ["Medications"],
-                    summary: "Actualizar medicamento (admin)",
+                    summary: "Update medication (Admin)",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/MedicationInput" } } } },
                     responses: {
-                        200: { description: "Medicamento actualizado", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
-                        403: { description: "Requiere rol admin" },
+                        200: { description: "Medication updated", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
+                        403: { description: "Admin role required" },
                     },
                 },
                 delete: {
                     tags: ["Medications"],
-                    summary: "Eliminar medicamento (admin)",
+                    summary: "Delete medication (Admin)",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     responses: {
-                        200: { description: "Medicamento eliminado", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
-                        403: { description: "Requiere rol admin" },
+                        200: { description: "Medication deleted", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
+                        403: { description: "Admin role required" },
                     },
                 },
             },
@@ -484,72 +484,84 @@ const options: swaggerJsdoc.Options = {
             "/api/requests": {
                 post: {
                     tags: ["SupplyRequests"],
-                    summary: "Crear solicitud de abastecimiento (gestor)",
+                    summary: "Create supply request (Manager/Gestor)",
                     security: [{ bearerAuth: [] }],
                     requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/SupplyRequestInput" } } } },
                     responses: {
-                        201: { description: "Solicitud creada (estado: pendiente)", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/SupplyRequest" } } } } } },
-                        401: { description: "No autorizado" },
+                        201: { description: "Supply request created (status: pendiente)", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/SupplyRequest" } } } } } },
+                        400: { description: "Insufficient stock or invalid data" },
+                        401: { description: "Unauthorized" },
                     },
                 },
                 get: {
                     tags: ["SupplyRequests"],
-                    summary: "Listar todas las solicitudes (admin)",
+                    summary: "List all supply requests (Admin)",
                     security: [{ bearerAuth: [] }],
                     responses: {
-                        200: { description: "Todas las solicitudes con relaciones", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/SupplyRequest" } } } } } } },
-                        403: { description: "Requiere rol admin" },
+                        200: { description: "All requests with associations", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/SupplyRequest" } } } } } } },
+                        403: { description: "Admin role required" },
                     },
                 },
             },
             "/api/requests/my": {
                 get: {
                     tags: ["SupplyRequests"],
-                    summary: "Mis solicitudes (gestor)",
-                    description: "Retorna las solicitudes creadas por el usuario autenticado.",
+                    summary: "My supply requests (Manager/Gestor)",
+                    description: "Returns requests created by the currently authenticated user.",
                     security: [{ bearerAuth: [] }],
                     responses: {
-                        200: { description: "Solicitudes del gestor", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/SupplyRequest" } } } } } } },
+                        200: { description: "Manager supply requests", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/SupplyRequest" } } } } } } },
+                    },
+                },
+            },
+            "/api/requests/active": {
+                get: {
+                    tags: ["SupplyRequests"],
+                    summary: "Active supply requests (Admin / Manager)",
+                    description: "Returns all requests with status 'pendiente' or 'aprobada'.",
+                    security: [{ bearerAuth: [] }],
+                    responses: {
+                        200: { description: "Active supply requests", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { type: "array", items: { $ref: "#/components/schemas/SupplyRequest" } } } } } } },
                     },
                 },
             },
             "/api/requests/{id}": {
                 get: {
                     tags: ["SupplyRequests"],
-                    summary: "Detalle de una solicitud",
+                    summary: "Get supply request details by ID",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     responses: {
-                        200: { description: "Solicitud encontrada", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/SupplyRequest" } } } } } },
-                        404: { description: "Solicitud no encontrada" },
+                        200: { description: "Supply request found", content: { "application/json": { schema: { type: "object", properties: { success: { type: "boolean" }, data: { $ref: "#/components/schemas/SupplyRequest" } } } } } },
+                        404: { description: "Supply request not found" },
                     },
                 },
             },
             "/api/requests/{id}/assign": {
                 patch: {
                     tags: ["SupplyRequests"],
-                    summary: "Asignar almacén a solicitud (admin)",
+                    summary: "Assign distribution warehouse to request (Admin)",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/AssignWarehouseInput" } } } },
                     responses: {
-                        200: { description: "Almacén asignado", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
-                        403: { description: "Requiere rol admin" },
-                        404: { description: "Solicitud no encontrada" },
+                        200: { description: "Warehouse assigned", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
+                        403: { description: "Admin role required" },
+                        404: { description: "Supply request not found" },
                     },
                 },
             },
             "/api/requests/{id}/status": {
                 patch: {
                     tags: ["SupplyRequests"],
-                    summary: "Cambiar estado de solicitud (admin)",
+                    summary: "Update supply request status (Admin)",
                     security: [{ bearerAuth: [] }],
                     parameters: [{ name: "id", in: "path", required: true, schema: { type: "integer" } }],
                     requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/UpdateStatusInput" } } } },
                     responses: {
-                        200: { description: "Estado actualizado", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
-                        400: { description: "Estado inválido" },
-                        403: { description: "Requiere rol admin" },
+                        200: { description: "Status updated", content: { "application/json": { schema: { $ref: "#/components/schemas/SuccessResponse" } } } },
+                        400: { description: "Invalid status" },
+                        403: { description: "Admin role required" },
                     },
                 },
             },
@@ -558,16 +570,16 @@ const options: swaggerJsdoc.Options = {
             "/api/seed/{entity}": {
                 post: {
                     tags: ["Seeder"],
-                    summary: "Cargar datos iniciales desde JSON (admin)",
+                    summary: "Import initial bulk data from JSON (Admin)",
                     description:
-                        "Sube un archivo `.json` (array de objetos) para poblar la base de datos. Las entidades soportadas son: `users`, `clinics`, `warehouses`, `medications`. Los registros duplicados se ignoran automáticamente.",
+                        "Uploads a `.json` file (array of objects) to populate the database. Supported entities: `users`, `clinics`, `warehouses`, `medications`. Duplicate records are automatically skipped.",
                     security: [{ bearerAuth: [] }],
                     parameters: [
                         {
                             name: "entity",
                             in: "path",
                             required: true,
-                            description: "Entidad a poblar",
+                            description: "Target entity to seed",
                             schema: { type: "string", enum: ["users", "clinics", "warehouses", "medications"] },
                         },
                     ],
@@ -579,7 +591,7 @@ const options: swaggerJsdoc.Options = {
                                     type: "object",
                                     required: ["file"],
                                     properties: {
-                                        file: { type: "string", format: "binary", description: "Archivo JSON con array de objetos" },
+                                        file: { type: "string", format: "binary", description: "JSON file containing an array of objects" },
                                     },
                                 },
                             },
@@ -587,14 +599,14 @@ const options: swaggerJsdoc.Options = {
                     },
                     responses: {
                         200: {
-                            description: "Seeder ejecutado correctamente",
+                            description: "Seeder executed successfully",
                             content: {
                                 "application/json": {
                                     schema: {
                                         type: "object",
                                         properties: {
                                             success: { type: "boolean", example: true },
-                                            message: { type: "string", example: 'Seeder ejecutado: 3 registros insertados en "clinics"' },
+                                            message: { type: "string", example: 'Seeder executed: 3 records inserted into "clinics"' },
                                             total_received: { type: "integer", example: 5 },
                                             inserted: { type: "integer", example: 3 },
                                         },
@@ -602,8 +614,8 @@ const options: swaggerJsdoc.Options = {
                                 },
                             },
                         },
-                        400: { description: "Entidad inválida, archivo faltante o JSON malformado", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
-                        403: { description: "Requiere rol admin" },
+                        400: { description: "Invalid entity, missing file, or malformed JSON", content: { "application/json": { schema: { $ref: "#/components/schemas/ErrorResponse" } } } },
+                        403: { description: "Admin role required" },
                     },
                 },
             },

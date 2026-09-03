@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as service from "../services/medication.service";
 
 /**
- * Obtiene todos los registros de medicamento.
+ * Retrieves all medication records.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -17,7 +17,7 @@ export const getAll = async (_req: Request, res: Response) => {
 };
 
 /**
- * Consulta un(a) medicamento por su ID.
+ * Retrieves a medication by its ID.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -32,7 +32,7 @@ export const getById = async (req: Request, res: Response) => {
 };
 
 /**
- * Crea un nuevo registro de medicamento.
+ * Creates a new medication record.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -47,14 +47,14 @@ export const create = async (req: Request, res: Response) => {
 };
 
 /**
- * Actualiza parcialmente un(a) medicamento.
+ * Updates a medication partially.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
 export const update = async (req: Request, res: Response) => {
     try {
         await service.update(Number(req.params.id), req.body);
-        res.json({ success: true, message: "Medicamento actualizado" });
+        res.json({ success: true, message: "Medication updated successfully" });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Error";
         res.status(400).json({ success: false, message });
@@ -62,14 +62,14 @@ export const update = async (req: Request, res: Response) => {
 };
 
 /**
- * Elimina un(a) medicamento del sistema.
+ * Deletes a medication from the system.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
 export const remove = async (req: Request, res: Response) => {
     try {
         await service.remove(Number(req.params.id));
-        res.json({ success: true, message: "Medicamento eliminado" });
+        res.json({ success: true, message: "Medication deleted successfully" });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Error";
         res.status(400).json({ success: false, message });

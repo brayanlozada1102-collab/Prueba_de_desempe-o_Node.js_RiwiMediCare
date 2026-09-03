@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as service from "../services/clinic.service";
 
 /**
- * Obtiene todos los registros de clínica.
+ * Retrieves all clinic records.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -17,7 +17,7 @@ export const getAll = async (_req: Request, res: Response) => {
 };
 
 /**
- * Consulta un(a) clínica por su ID.
+ * Retrieves a clinic by its ID.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -32,7 +32,7 @@ export const getById = async (req: Request, res: Response) => {
 };
 
 /**
- * Crea un nuevo registro de clínica.
+ * Creates a new clinic record.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
@@ -47,14 +47,14 @@ export const create = async (req: Request, res: Response) => {
 };
 
 /**
- * Actualiza parcialmente un(a) clínica.
+ * Updates a clinic partially.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
 export const update = async (req: Request, res: Response) => {
     try {
         await service.update(Number(req.params.id), req.body);
-        res.json({ success: true, message: "Clínica actualizada" });
+        res.json({ success: true, message: "Clinic updated successfully" });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Error";
         res.status(400).json({ success: false, message });
@@ -62,14 +62,14 @@ export const update = async (req: Request, res: Response) => {
 };
 
 /**
- * Elimina un(a) clínica del sistema.
+ * Deletes a clinic from the system.
  * @param {Request} req - Express Request.
  * @param {Response} res - Express Response.
  */
 export const remove = async (req: Request, res: Response) => {
     try {
         await service.remove(Number(req.params.id));
-        res.json({ success: true, message: "Clínica eliminada" });
+        res.json({ success: true, message: "Clinic deleted successfully" });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Error";
         res.status(400).json({ success: false, message });

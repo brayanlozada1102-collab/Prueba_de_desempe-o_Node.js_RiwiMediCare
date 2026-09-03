@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireframe 4 - Create Supply Request | RiwiMediCare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-10 px-4">
+
+  <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+    
+    <!-- Top Form Header -->
+    <div class="bg-gradient-to-r from-indigo-900 to-indigo-800 p-6 text-white">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-cyan-300">
+          <i class="fa-solid fa-file-signature text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-black">Create Supply Request</h1>
+          <p class="text-indigo-200 text-xs mt-0.5">Form with automatic real-time stock availability verification.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form class="p-6 space-y-5 text-xs">
+      
+      <!-- Field 1: Clinic -->
+      <div>
+        <label class="block font-bold text-slate-700 uppercase tracking-wider mb-2">
+          1. Requesting Healthcare Clinic <span class="text-rose-500">*</span>
+        </label>
+        <select class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+          <option>Life & Health Medical Center (NIT: 900123456-1) - North Campus</option>
+          <option>St. Jude Community Hospital (NIT: 800987654-2) - Central Campus</option>
+          <option>Riwi Regional Hospital (NIT: 700555333-3) - Regional Campus</option>
+        </select>
+      </div>
+
+      <!-- Field 2: Medication -->
+      <div>
+        <label class="block font-bold text-slate-700 uppercase tracking-wider mb-2">
+          2. Required Medication <span class="text-rose-500">*</span>
+        </label>
+        <select class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+          <option>Amoxicillin 500mg Capsules (Warehouse stock: 850 Boxes)</option>
+          <option>Ibuprofen 400mg Tablets (Warehouse stock: 500 Boxes)</option>
+          <option>Acetaminophen 500mg Tablets (Warehouse stock: 1,200 Boxes)</option>
+        </select>
+      </div>
+
+      <!-- Field 3: Quantity & Validation Badge -->
+      <div>
+        <label class="block font-bold text-slate-700 uppercase tracking-wider mb-2">
+          3. Requested Quantity <span class="text-rose-500">*</span>
+        </label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+          <input type="number" value="150" min="1" class="text-sm font-bold bg-slate-50 border border-slate-300 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+          <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 flex items-center space-x-2">
+            <i class="fa-solid fa-check-circle text-emerald-600 text-sm"></i>
+            <span><strong>Available Stock:</strong> 850 Boxes</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Field 4: Notes -->
+      <div>
+        <label class="block font-bold text-slate-700 uppercase tracking-wider mb-2">
+          4. Justification / Clinical Notes
+        </label>
+        <textarea rows="3" placeholder="Indicate medical department destination or clinical urgency..." class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">Priority restocking for Emergency Room and Floor 3 ICU.</textarea>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
+        <button type="button" class="px-5 py-2.5 font-bold text-slate-600 hover:bg-slate-100 rounded-xl">Cancel</button>
+        <button type="button" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/30 flex items-center space-x-2">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Submit Request</span>
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</body>
+</html>

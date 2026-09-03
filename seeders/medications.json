@@ -1,30 +1,30 @@
 [
   {
-    "name": "Paracetamol (Acetaminofén)",
-    "description": "Analgésico y antipirético de 500mg",
+    "name": "Acetaminophen (Paracetamol)",
+    "description": "Analgesic and antipyretic 500mg tablets",
     "quantity": 10000,
-    "unit": "mg",
+    "unit": "tablets",
     "warehouse_id": 1
   },
   {
-    "name": "Ibuprofeno",
-    "description": "Antiinflamatorio no esteroideo de 400mg",
+    "name": "Ibuprofen",
+    "description": "Nonsteroidal anti-inflammatory drug 400mg",
     "quantity": 5000,
-    "unit": "mg",
+    "unit": "tablets",
     "warehouse_id": 1
   },
   {
-    "name": "Amoxicilina",
-    "description": "Antibiótico de amplio espectro, cápsulas de 500mg",
+    "name": "Amoxicillin",
+    "description": "Broad-spectrum antibiotic 500mg capsules",
     "quantity": 2500,
-    "unit": "mg",
+    "unit": "capsules",
     "warehouse_id": 2
   },
   {
-    "name": "Loratadina",
-    "description": "Antihistamínico para alergias leves 10mg",
+    "name": "Loratadine",
+    "description": "Antihistamine for allergy relief 10mg",
     "quantity": 4000,
-    "unit": "mg",
+    "unit": "tablets",
     "warehouse_id": 1
   }
 ]

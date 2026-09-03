@@ -4,49 +4,51 @@ import * as medicationRepo from "../repositories/medication.repository";
 import { RequestStatus, SupplyRequest } from "../models/supply-request.model";
 
 /**
- * Obtiene un listado completo de todas las solicitudes de abastecimiento.
- * @returns {Promise<SupplyRequest[]>} El registro de peticiones.
+ * Retrieves all supply requests across the system.
+ * @returns {Promise<SupplyRequest[]>} List of all supply requests.
  */
 export const getAll = (): Promise<SupplyRequest[]> => repo.findAll();
+
 /**
- * Obtiene las solicitudes activas (pendientes / aprobadas)
+ * Retrieves all active supply requests (status: 'pendiente' or 'aprobada').
+ * @returns {Promise<SupplyRequest[]>} List of active supply requests.
  */
 export const getActive = (): Promise<SupplyRequest[]> => repo.findActive();
 
 /**
- * Obtiene todas las solicitudes de un usuario específico.
- * @param {number} userId - Identificador del gestor/creador.
- * @returns {Promise<SupplyRequest[]>} Lista de las solicitudes creadas por el usuario.
+ * Retrieves all supply requests created by a specific user (manager).
+ * @param {number} userId - Identifier of the requester.
+ * @returns {Promise<SupplyRequest[]>} Requests created by the specified user.
  */
 export const getByUser = (userId: number): Promise<SupplyRequest[]> => repo.findByUser(userId);
 
 /**
- * Obtiene todas las solicitudes realizadas para una clínica.
- * @param {number} clinicId - Identificador de la clínica.
- * @returns {Promise<SupplyRequest[]>} Peticiones relacionadas a la clínica vinculada.
+ * Retrieves all supply requests associated with a clinic.
+ * @param {number} clinicId - Clinic ID.
+ * @returns {Promise<SupplyRequest[]>} Requests related to the specified clinic.
  */
 export const getByClinic = (clinicId: number): Promise<SupplyRequest[]> => repo.findByClinic(clinicId);
 
 /**
- * Consigue una solicitud exacta consultando su ID.
+ * Finds a supply request by its unique identifier.
  * @param {number} id - Supply Request ID.
- * @returns {Promise<SupplyRequest>} El modelo de la solicitud mapeado con sus relaciones.
- * @throws Lanzará error si el ID no corresponde a ninguna solicitud.
+ * @returns {Promise<SupplyRequest>} Supply request model with its associations.
+ * @throws {Error} If request is not found.
  */
 export const getById = async (id: number): Promise<SupplyRequest> => {
     const req = await repo.findById(id);
-    if (!req) throw new Error("Solicitud no encontrada");
+    if (!req) throw new Error("Supply request not found");
     return req;
 };
 
 /**
- * Servicio encargado de crear una nueva solicitud de abastecimiento evaluando previamente las reglas y limitantes del negocio.
- * Evaluaciones realizadas:
- * 1. Existencia de la clínica emisora.
- * 2. Existencia del medicamento solicitado.
- * 3. Suficiente stock en la base de datos de medicamentos.
- * @param {Object} data - Formato y estructura base de la solicitud.
- * @returns {Promise<SupplyRequest>} Retorna la solicitud tras integrarse en la BD.
+ * Creates a new medical supply request after validating business rules:
+ * 1. Existence of the requesting clinic.
+ * 2. Requested quantity greater than zero.
+ * 3. Existence of the requested medication.
+ * 4. Sufficient stock available in warehouse inventory.
+ * @param {Object} data - Supply request payload.
+ * @returns {Promise<SupplyRequest>} Created supply request.
  */
 export const create = async (data: {
     clinic_id: number;
@@ -55,26 +57,26 @@ export const create = async (data: {
     requested_by: number;
     notes?: string;
 }): Promise<SupplyRequest> => {
-    // 1. Verificar que la clínica exista
+    // 1. Verify that clinic exists
     const clinic = await clinicRepo.findById(data.clinic_id);
     if (!clinic) {
-        throw new Error(`La clínica con ID ${data.clinic_id} no existe`);
+        throw new Error(`Clinic with ID ${data.clinic_id} does not exist`);
     }
 
     if (data.quantity_requested <= 0) {
-        throw new Error("La cantidad solicitada debe ser mayor a cero");
+        throw new Error("Requested quantity must be greater than zero");
     }
 
-    // 2. Verificar que el medicamento exista
+    // 2. Verify that medication exists
     const medication = await medicationRepo.findById(data.medication_id);
     if (!medication) {
-        throw new Error(`El medicamento con ID ${data.medication_id} no existe`);
+        throw new Error(`Medication with ID ${data.medication_id} does not exist`);
     }
 
-    // 3. Verificar disponibilidad en inventario
+    // 3. Verify stock availability
     if (medication.quantity < data.quantity_requested) {
         throw new Error(
-            `Stock insuficiente. Solicitado: ${data.quantity_requested}, disponible: ${medication.quantity} ${medication.unit}`
+            `Insufficient stock. Requested: ${data.quantity_requested}, available: ${medication.quantity} ${medication.unit}`
         );
     }
 
@@ -82,10 +84,10 @@ export const create = async (data: {
 };
 
 /**
- * Asigna un almacén de distribución y suplencia para una solicitud pendiente.
- * @param {number} id - Identificador de la solicitud emisora.
- * @param {number} warehouseId - ID del Almacén que suplirá la necesidad.
- * @returns {Promise<[affectedCount: number]>} El número de filas actualizadas en base de datos.
+ * Assigns a distribution warehouse to supply a pending request.
+ * @param {number} id - Supply request ID.
+ * @param {number} warehouseId - Warehouse ID.
+ * @returns {Promise<[affectedCount: number]>} Number of affected database rows.
  */
 export const assignWarehouse = async (id: number, warehouseId: number): Promise<[affectedCount: number]> => {
     await getById(id);
@@ -93,16 +95,16 @@ export const assignWarehouse = async (id: number, warehouseId: number): Promise<
 };
 
 /**
- * Cambia el estado de una orden.
- * Se encarga de validar que la orden posea un estado coherente del ciclo de vida ENUM.
- * @param {number} id - ID de la solicitud emisora.
- * @param {RequestStatus} status - Estado exacto al cual transicionar (e.g. aprobada)
- * @returns {Promise<[affectedCount: number]>} Modificaciones realizadas de filas.
+ * Updates the lifecycle status of a supply request.
+ * Validates that the target status is a valid ENUM value.
+ * @param {number} id - Supply request ID.
+ * @param {RequestStatus} status - Target status (e.g., 'aprobada', 'entregada', 'rechazada').
+ * @returns {Promise<[affectedCount: number]>} Number of affected database rows.
  */
 export const updateStatus = async (id: number, status: RequestStatus): Promise<[affectedCount: number]> => {
     const VALID: RequestStatus[] = ["pendiente", "aprobada", "rechazada", "entregada"];
     if (!VALID.includes(status)) {
-        throw new Error(`Estado inválido. Use: ${VALID.join(", ")}`);
+        throw new Error(`Invalid status. Use: ${VALID.join(", ")}`);
     }
     await getById(id);
     return repo.updateStatus(id, status);

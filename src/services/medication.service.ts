@@ -2,26 +2,27 @@ import * as repo from "../repositories/medication.repository";
 import { Medication } from "../models/medication.model";
 
 /**
- * Obtiene toda la tabla de medicamentos.
- * @returns {Promise<Medication[]>} Petición que resuelve la tabla de stock general.
+ * Retrieves all medications from the catalog.
+ * @returns {Promise<Medication[]>} List of all medication items.
  */
 export const getAll = (): Promise<Medication[]> => repo.findAll();
 
 /**
- * Analiza que un medicamento exista por su UUID o ID Primario
- * @param {number} id - FK / PK 
- * @returns {Promise<Medication>} Resultado referenciado
+ * Finds a medication by its unique identifier.
+ * @param {number} id - Medication ID.
+ * @returns {Promise<Medication>} Medication record.
+ * @throws {Error} If medication is not found.
  */
 export const getById = async (id: number): Promise<Medication> => {
     const med = await repo.findById(id);
-    if (!med) throw new Error("Medicamento no encontrado");
+    if (!med) throw new Error("Medication not found");
     return med;
 };
 
 /**
- * Registra un medicamento a la base general y lo ata al almacén principal
- * @param {Object} data Esquema y definición química (nombre, peso, id_almacén)
- * @returns {Promise<Medication>} Data agregada
+ * Registers a new medication in the inventory assigned to a specific warehouse.
+ * @param {Object} data - Medication schema (name, description, quantity, unit, warehouse_id).
+ * @returns {Promise<Medication>} Created medication entity.
  */
 export const create = (data: {
     name: string;
@@ -32,10 +33,10 @@ export const create = (data: {
 }): Promise<Medication> => repo.create(data);
 
 /**
- * Rectifica la cantidad u otros campos de la medicina
- * @param {number} id 
- * @param {Object} data 
- * @returns {Promise<[affectedCount: number]>}
+ * Updates medication fields or stock quantities.
+ * @param {number} id - Medication ID.
+ * @param {Object} data - Update data.
+ * @returns {Promise<[affectedCount: number]>} Number of affected rows.
  */
 export const update = async (id: number, data: Parameters<typeof repo.update>[1]): Promise<[affectedCount: number]> => {
     await getById(id);
@@ -43,9 +44,9 @@ export const update = async (id: number, data: Parameters<typeof repo.update>[1]
 };
 
 /**
- * Elimina o descontinúa un medicamento de BD
- * @param {number} id Index key
- * @returns {Promise<number>} Action success flag
+ * Soft deletes a medication from inventory.
+ * @param {number} id - Medication ID.
+ * @returns {Promise<number>} Number of deleted records.
  */
 export const remove = async (id: number): Promise<number> => {
     await getById(id);

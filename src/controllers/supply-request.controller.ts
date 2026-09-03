@@ -4,8 +4,8 @@ import { AuthRequest } from "../middlewares/jwt.middleware";
 import { RequestStatus } from "../models/supply-request.model";
 
 /**
- * Obtiene todos los registros de solicitud.
- * @param {Request} req - Express Request.
+ * Retrieves all supply requests across the system (Admin only).
+ * @param {AuthRequest} req - Express Request.
  * @param {Response} res - Express Response.
  */
 export const getAll = async (_req: AuthRequest, res: Response) => {
@@ -18,6 +18,11 @@ export const getAll = async (_req: AuthRequest, res: Response) => {
     }
 };
 
+/**
+ * Retrieves supply requests created by the current authenticated user (Manager/Gestor).
+ * @param {AuthRequest} req
+ * @param {Response} res
+ */
 export const getMy = async (req: AuthRequest, res: Response) => {
     try {
         const data = await service.getByUser(req.user!.id);
@@ -28,6 +33,11 @@ export const getMy = async (req: AuthRequest, res: Response) => {
     }
 };
 
+/**
+ * Retrieves supply requests for a specific clinic.
+ * @param {AuthRequest} req
+ * @param {Response} res
+ */
 export const getByClinic = async (req: AuthRequest, res: Response) => {
     try {
         const data = await service.getByClinic(Number(req.params.clinicId));
@@ -39,9 +49,9 @@ export const getByClinic = async (req: AuthRequest, res: Response) => {
 };
 
 /**
- * Consulta un(a) solicitud por su ID.
- * @param {Request} req - Express Request.
- * @param {Response} res - Express Response.
+ * Retrieves a supply request by its ID.
+ * @param {AuthRequest} req
+ * @param {Response} res
  */
 export const getById = async (req: AuthRequest, res: Response) => {
     try {
@@ -54,9 +64,9 @@ export const getById = async (req: AuthRequest, res: Response) => {
 };
 
 /**
- * Crea un nuevo registro de solicitud.
- * @param {Request} req - Express Request.
- * @param {Response} res - Express Response.
+ * Creates a new supply request.
+ * @param {AuthRequest} req
+ * @param {Response} res
  */
 export const create = async (req: AuthRequest, res: Response) => {
     try {
@@ -71,20 +81,15 @@ export const create = async (req: AuthRequest, res: Response) => {
     }
 };
 
+/**
+ * Assigns a distribution warehouse to a supply request (Admin).
+ * @param {AuthRequest} req
+ * @param {Response} res
+ */
 export const assignWarehouse = async (req: AuthRequest, res: Response) => {
     try {
         await service.assignWarehouse(Number(req.params.id), req.body.warehouse_id);
-        res.json({ success: true, message: "Almacén asignado correctamente" });
-    } catch (error) {
-        const message = error instanceof Error ? error.message : "Error";
-        res.status(400).json({ success: false, message });
-    }
-};
-
-export const updateStatus = async (req: AuthRequest, res: Response) => {
-    try {
-        await service.updateStatus(Number(req.params.id), req.body.status as RequestStatus);
-        res.json({ success: true, message: "Estado actualizado correctamente" });
+        res.json({ success: true, message: "Warehouse successfully assigned" });
     } catch (error) {
         const message = error instanceof Error ? error.message : "Error";
         res.status(400).json({ success: false, message });
@@ -92,8 +97,23 @@ export const updateStatus = async (req: AuthRequest, res: Response) => {
 };
 
 /**
- * Obtiene todas las solicitudes en estado activo (Gestor y Admin).
- * @param {Request} req
+ * Updates the lifecycle status of a supply request (Admin).
+ * @param {AuthRequest} req
+ * @param {Response} res
+ */
+export const updateStatus = async (req: AuthRequest, res: Response) => {
+    try {
+        await service.updateStatus(Number(req.params.id), req.body.status as RequestStatus);
+        res.json({ success: true, message: "Status successfully updated" });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Error";
+        res.status(400).json({ success: false, message });
+    }
+};
+
+/**
+ * Retrieves all active supply requests (pending and approved).
+ * @param {AuthRequest} _req
  * @param {Response} res 
  */
 export const getActive = async (_req: AuthRequest, res: Response) => {

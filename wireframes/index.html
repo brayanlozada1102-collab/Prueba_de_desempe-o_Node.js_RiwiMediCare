@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RiwiMediCare - Interactive Prototype & Wireframes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .screen-view { display: none; }
+    .screen-view.active { display: block; animation: fadeIn 0.25s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- TOP HEADER / NAV BAR -->
+  <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo & Branding -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-400 to-cyan-400 flex items-center justify-center text-indigo-950 font-black text-xl shadow-lg">
+            <i class="fa-solid fa-notes-medical text-indigo-900"></i>
+          </div>
+          <div>
+            <span class="font-extrabold text-xl tracking-tight text-white">Riwi<span class="text-cyan-400">MediCare</span></span>
+            <span class="hidden sm:inline-block ml-2 px-2 py-0.5 text-xs font-semibold bg-indigo-800/80 text-cyan-200 rounded-full border border-indigo-700">Wireframes v1.0</span>
+          </div>
+        </div>
+
+        <!-- Wireframe Screen Switcher Navigation -->
+        <nav class="flex items-center space-x-1 overflow-x-auto py-2">
+          <button onclick="switchScreen('login')" id="btn-login" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 text-indigo-200 hover:bg-indigo-800 hover:text-white transition">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <span class="hidden md:inline">1. Login</span>
+          </button>
+          <button onclick="switchScreen('dashboard')" id="btn-dashboard" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 bg-cyan-500 text-indigo-950 shadow-sm transition">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span class="hidden md:inline">2. Dashboard</span>
+          </button>
+          <button onclick="switchScreen('inventory')" id="btn-inventory" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 text-indigo-200 hover:bg-indigo-800 hover:text-white transition">
+            <i class="fa-solid fa-pills"></i>
+            <span class="hidden md:inline">3. Inventory</span>
+          </button>
+          <button onclick="switchScreen('create-request')" id="btn-create-request" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 text-indigo-200 hover:bg-indigo-800 hover:text-white transition">
+            <i class="fa-solid fa-file-circle-plus"></i>
+            <span class="hidden md:inline">4. Request Form</span>
+          </button>
+          <button onclick="switchScreen('requests-mgmt')" id="btn-requests-mgmt" class="nav-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 text-indigo-200 hover:bg-indigo-800 hover:text-white transition">
+            <i class="fa-solid fa-truck-ramp-box"></i>
+            <span class="hidden md:inline">5. Dispatch Tray</span>
+          </button>
+        </nav>
+
+        <!-- Current Role Badge -->
+        <div class="flex items-center space-x-2">
+          <span class="hidden lg:flex items-center text-xs text-indigo-200">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
+            Simulation Active
+          </span>
+          <select id="role-selector" onchange="changeSimulatedRole()" class="bg-indigo-800 text-xs text-cyan-200 font-medium px-2.5 py-1.5 rounded-lg border border-indigo-700 focus:outline-none focus:ring-1 focus:ring-cyan-400">
+            <option value="admin">Role: Administrator</option>
+            <option value="gestor">Role: Clinical Manager</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- SCREEN VIEW 1: LOGIN -->
+  <main id="screen-login" class="screen-view py-12 px-4 flex-1 flex items-center justify-center">
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+      <!-- Card Header -->
+      <div class="bg-gradient-to-r from-indigo-900 to-indigo-800 px-8 py-8 text-center text-white relative">
+        <div class="w-16 h-16 mx-auto mb-3 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-inner">
+          <i class="fa-solid fa-staff-snake text-3xl text-cyan-300"></i>
+        </div>
+        <h2 class="text-2xl font-bold">RiwiMediCare</h2>
+        <p class="text-indigo-200 text-xs mt-1">Medical Supply Chain Management Platform</p>
+      </div>
+
+      <!-- Form Content -->
+      <div class="p-8">
+        <div class="mb-4 bg-indigo-50 border border-indigo-200 rounded-lg p-3 text-xs text-indigo-900 flex items-start space-x-2">
+          <i class="fa-solid fa-shield-halved text-indigo-600 mt-0.5"></i>
+          <div>
+            <strong>Secure Authentication:</strong> Stateless JWT + Bcrypt Cryptographic Hashing.
+          </div>
+        </div>
+
+        <form onsubmit="event.preventDefault(); switchScreen('dashboard');" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email Address</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                <i class="fa-regular fa-envelope text-sm"></i>
+              </span>
+              <input type="email" value="admin@riwimedicare.com" class="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" required />
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Password</label>
+              <a href="#" class="text-xs text-indigo-600 hover:underline">Forgot password?</a>
+            </div>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                <i class="fa-solid fa-lock text-sm"></i>
+              </span>
+              <input type="password" value="••••••••••••" class="w-full pl-9 pr-3 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition" required />
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center text-xs text-slate-600 cursor-pointer">
+              <input type="checkbox" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+              <span class="ml-2">Remember credentials</span>
+            </label>
+            <span class="text-xs font-semibold text-slate-500">API Port: 3000</span>
+          </div>
+
+          <button type="submit" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2 transition duration-200">
+            <span>Sign In to System</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </form>
+
+        <div class="mt-6 text-center border-t border-slate-100 pt-4">
+          <p class="text-xs text-slate-500">Interactive API Documentation: <a href="http://localhost:3000/api/docs" target="_blank" class="text-indigo-600 font-semibold hover:underline">Swagger UI</a></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SCREEN VIEW 2: DASHBOARD -->
+  <main id="screen-dashboard" class="screen-view active max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+    
+    <!-- Title & Top Actions -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">System Operations Dashboard</h1>
+        <p class="text-sm text-slate-500 mt-1">Real-time supervision of medical inventories, warehouses, and supply workflows.</p>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button onclick="switchScreen('create-request')" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-sm flex items-center space-x-2 transition">
+          <i class="fa-solid fa-plus"></i>
+          <span>New Supply Request</span>
+        </button>
+        <button onclick="alert('Executing bulk initial Seeder from JSON dataset...')" class="px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-sm font-semibold rounded-xl shadow-sm flex items-center space-x-2 transition">
+          <i class="fa-solid fa-cloud-arrow-up text-indigo-600"></i>
+          <span>Run Seeder</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4 KPI Metrics Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+      
+      <!-- Card 1: Total Medications -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Medications</p>
+          <p class="text-2xl font-black text-slate-900 mt-1">1,420 <span class="text-xs font-medium text-slate-500">units</span></p>
+          <p class="text-xs text-emerald-600 font-semibold mt-2 flex items-center">
+            <i class="fa-solid fa-arrow-trend-up mr-1"></i> 3 Active Warehouses
+          </p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-boxes-stacked"></i>
+        </div>
+      </div>
+
+      <!-- Card 2: Pending Requests -->
+      <div class="bg-white p-5 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold text-amber-800 uppercase tracking-wider">Pending Requests</p>
+          <p class="text-2xl font-black text-amber-600 mt-1">18 <span class="text-xs font-medium text-amber-800">orders</span></p>
+          <p class="text-xs text-amber-700 font-semibold mt-2 flex items-center">
+            <i class="fa-solid fa-clock mr-1"></i> Requires warehouse assignment
+          </p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-hourglass-half"></i>
+        </div>
+      </div>
+
+      <!-- Card 3: Approved / Dispatched -->
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Monthly Dispatches</p>
+          <p class="text-2xl font-black text-emerald-600 mt-1">142</p>
+          <p class="text-xs text-emerald-600 font-semibold mt-2 flex items-center">
+            <i class="fa-solid fa-circle-check mr-1"></i> +14% vs previous month
+          </p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+      </div>
+
+      <!-- Card 4: Critical Stock Alerts -->
+      <div class="bg-white p-5 rounded-2xl border border-rose-200 bg-rose-50/20 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold text-rose-800 uppercase tracking-wider">Critical Stock</p>
+          <p class="text-2xl font-black text-rose-600 mt-1">4 <span class="text-xs font-medium text-rose-800">items</span></p>
+          <p class="text-xs text-rose-700 font-semibold mt-2 flex items-center">
+            <i class="fa-solid fa-triangle-exclamation mr-1"></i> Urgent restocking needed
+          </p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl">
+          <i class="fa-solid fa-bell"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Table & Activity Feed Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Left Column: Active Requests (2 Cols) -->
+      <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+          <h2 class="font-bold text-slate-800 flex items-center space-x-2">
+            <i class="fa-solid fa-list-check text-indigo-600"></i>
+            <span>Active Supply Requests</span>
+          </h2>
+          <button onclick="switchScreen('requests-mgmt')" class="text-xs text-indigo-600 font-semibold hover:underline">View all (18)</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-100">
+              <tr>
+                <th class="px-5 py-3">ID</th>
+                <th class="px-5 py-3">Requesting Clinic</th>
+                <th class="px-5 py-3">Medication</th>
+                <th class="px-5 py-3">Quantity</th>
+                <th class="px-5 py-3">Status</th>
+                <th class="px-5 py-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-700">
+              <tr class="hover:bg-slate-50 transition">
+                <td class="px-5 py-3.5 font-bold text-indigo-900">#104</td>
+                <td class="px-5 py-3.5 font-medium">Life & Health Medical Center</td>
+                <td class="px-5 py-3.5">Amoxicillin 500mg</td>
+                <td class="px-5 py-3.5 font-semibold">200 Boxes</td>
+                <td class="px-5 py-3.5">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span> Pending
+                  </span>
+                </td>
+                <td class="px-5 py-3.5 text-right">
+                  <button onclick="switchScreen('requests-mgmt')" class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold rounded-lg">Assign</button>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-slate-50 transition">
+                <td class="px-5 py-3.5 font-bold text-indigo-900">#103</td>
+                <td class="px-5 py-3.5 font-medium">St. Jude Community Hospital</td>
+                <td class="px-5 py-3.5">Ibuprofen 400mg</td>
+                <td class="px-5 py-3.5 font-semibold">150 Boxes</td>
+                <td class="px-5 py-3.5">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span> Approved
+                  </span>
+                </td>
+                <td class="px-5 py-3.5 text-right">
+                  <button onclick="switchScreen('requests-mgmt')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg">Details</button>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-slate-50 transition">
+                <td class="px-5 py-3.5 font-bold text-indigo-900">#102</td>
+                <td class="px-5 py-3.5 font-medium">Riwi Regional Hospital</td>
+                <td class="px-5 py-3.5">Acetaminophen 500mg</td>
+                <td class="px-5 py-3.5 font-semibold">500 Boxes</td>
+                <td class="px-5 py-3.5">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span> Delivered
+                  </span>
+                </td>
+                <td class="px-5 py-3.5 text-right">
+                  <button onclick="switchScreen('requests-mgmt')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg">View</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right Column: Warehouses & Capacity -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col justify-between">
+        <div>
+          <h2 class="font-bold text-slate-800 mb-4 flex items-center space-x-2">
+            <i class="fa-solid fa-warehouse text-indigo-600"></i>
+            <span>Distribution Warehouses</span>
+          </h2>
+          
+          <div class="space-y-4">
+            <!-- Warehouse 1 -->
+            <div>
+              <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+                <span>Central Distribution Warehouse</span>
+                <span class="text-indigo-600">85% Capacity</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2">
+                <div class="bg-indigo-600 h-2 rounded-full" style="width: 85%"></div>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Capacity: 50,000 units • Stock: 42,500 units</p>
+            </div>
+
+            <!-- Warehouse 2 -->
+            <div>
+              <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+                <span>Southern Regional Supply Hub</span>
+                <span class="text-emerald-600">45% Capacity</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2">
+                <div class="bg-emerald-500 h-2 rounded-full" style="width: 45%"></div>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Capacity: 20,000 units • Stock: 9,000 units</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100">
+          <div class="bg-slate-50 rounded-xl p-3 text-xs text-slate-600 flex items-center justify-between">
+            <span class="font-medium">Need to register a new warehouse?</span>
+            <button class="text-indigo-600 font-bold hover:underline">+ Create</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- SCREEN VIEW 3: INVENTORY -->
+  <main id="screen-inventory" class="screen-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+    
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl font-extrabold text-slate-900">Medication Catalog & Inventory</h1>
+        <p class="text-sm text-slate-500">Inventory control distributed across regional hubs and batches.</p>
+      </div>
+      <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center space-x-2 transition">
+        <i class="fa-solid fa-plus"></i>
+        <span>Add Medication</span>
+      </button>
+    </div>
+
+    <!-- Filters & Search Bar -->
+    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div class="relative w-full md:w-96">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+          <i class="fa-solid fa-magnifying-glass text-xs"></i>
+        </span>
+        <input type="text" placeholder="Search by generic name or active ingredient..." class="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none" />
+      </div>
+
+      <div class="flex items-center space-x-3 w-full md:w-auto">
+        <select class="text-xs bg-slate-50 border border-slate-200 font-medium px-3 py-2 rounded-xl text-slate-700 focus:outline-none">
+          <option>All Warehouses</option>
+          <option>Central Distribution Warehouse</option>
+          <option>Southern Regional Supply Hub</option>
+        </select>
+        <select class="text-xs bg-slate-50 border border-slate-200 font-medium px-3 py-2 rounded-xl text-slate-700 focus:outline-none">
+          <option>Stock Level: All</option>
+          <option>🟢 Optimal Stock</option>
+          <option>🟡 Moderate Stock</option>
+          <option>🔴 Critical Stock</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Inventory Table -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-100">
+            <tr>
+              <th class="px-6 py-4">ID</th>
+              <th class="px-6 py-4">Medication Name</th>
+              <th class="px-6 py-4">Description / Formulation</th>
+              <th class="px-6 py-4">Custodian Warehouse</th>
+              <th class="px-6 py-4">Available Stock</th>
+              <th class="px-6 py-4">Unit</th>
+              <th class="px-6 py-4">Status</th>
+              <th class="px-6 py-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            
+            <tr class="hover:bg-slate-50 transition">
+              <td class="px-6 py-4 font-bold text-slate-900">#MED-01</td>
+              <td class="px-6 py-4 font-bold text-indigo-900">Amoxicillin 500mg</td>
+              <td class="px-6 py-4 text-slate-500">Antibiotic capsules - Box x 30</td>
+              <td class="px-6 py-4 font-medium">Central Warehouse</td>
+              <td class="px-6 py-4 font-black text-slate-900 text-sm">850</td>
+              <td class="px-6 py-4 text-slate-500">Boxes</td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span> Optimal
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right space-x-2">
+                <button class="text-indigo-600 hover:text-indigo-800 font-semibold">Edit</button>
+              </td>
+            </tr>
+
+            <tr class="hover:bg-slate-50 transition">
+              <td class="px-6 py-4 font-bold text-slate-900">#MED-02</td>
+              <td class="px-6 py-4 font-bold text-indigo-900">Ibuprofen 400mg</td>
+              <td class="px-6 py-4 text-slate-500">Nonsteroidal anti-inflammatory - Box x 20</td>
+              <td class="px-6 py-4 font-medium">Southern Hub</td>
+              <td class="px-6 py-4 font-black text-slate-900 text-sm">120</td>
+              <td class="px-6 py-4 text-slate-500">Boxes</td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span> Moderate
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right space-x-2">
+                <button class="text-indigo-600 hover:text-indigo-800 font-semibold">Edit</button>
+              </td>
+            </tr>
+
+            <tr class="hover:bg-slate-50 transition">
+              <td class="px-6 py-4 font-bold text-slate-900">#MED-03</td>
+              <td class="px-6 py-4 font-bold text-indigo-900">Omeprazole 20mg</td>
+              <td class="px-6 py-4 text-slate-500">Gastroprotective capsules - Box x 28</td>
+              <td class="px-6 py-4 font-medium">Central Warehouse</td>
+              <td class="px-6 py-4 font-black text-rose-600 text-sm">15</td>
+              <td class="px-6 py-4 text-slate-500">Boxes</td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 animate-pulse">
+                  <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span> Critical
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right space-x-2">
+                <button class="text-indigo-600 hover:text-indigo-800 font-semibold">Restock</button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- SCREEN VIEW 4: CREATE REQUEST FORM -->
+  <main id="screen-create-request" class="screen-view max-w-3xl mx-auto px-4 py-8 w-full flex-1">
+    
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
+      <div class="bg-gradient-to-r from-indigo-900 to-indigo-800 p-6 text-white">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-cyan-300">
+            <i class="fa-solid fa-file-prescription text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold">Generate Medical Supply Request</h2>
+            <p class="text-indigo-200 text-xs mt-0.5">The system will verify inventory in distribution warehouses before issuing the order.</p>
+          </div>
+        </div>
+      </div>
+
+      <form onsubmit="handleRequestSubmit(event)" class="p-6 space-y-6">
+        
+        <!-- Field 1: Requesting Clinic -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+            1. Destination Clinic or Medical Center <span class="text-rose-500">*</span>
+          </label>
+          <select id="select-clinic" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none" required>
+            <option value="1">Life & Health Medical Center (NIT: 900123456-1) - North Campus</option>
+            <option value="2">St. Jude Community Hospital (NIT: 800987654-2) - Central Campus</option>
+            <option value="3">Riwi Regional Hospital (NIT: 700555333-3) - Regional Campus</option>
+          </select>
+        </div>
+
+        <!-- Field 2: Required Medication -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+            2. Required Medication <span class="text-rose-500">*</span>
+          </label>
+          <select id="select-medication" onchange="updateStockPreview()" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none" required>
+            <option value="amox" data-stock="850" data-unit="Boxes">Amoxicillin 500mg Capsules (Network Stock: 850 Boxes)</option>
+            <option value="dipi" data-stock="120" data-unit="Boxes">Ibuprofen 400mg Tablets (Network Stock: 120 Boxes)</option>
+            <option value="omep" data-stock="15" data-unit="Boxes">Omeprazole 20mg Tablets (Network Stock: 15 Boxes)</option>
+          </select>
+        </div>
+
+        <!-- Field 3: Quantity + Live Validation -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+              3. Requested Quantity <span class="text-rose-500">*</span>
+            </label>
+            <div class="relative">
+              <input type="number" id="input-qty" value="100" min="1" oninput="validateLiveStock()" class="w-full text-sm font-bold bg-slate-50 border border-slate-300 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none" required />
+              <span id="unit-badge" class="absolute right-3 top-3 text-xs font-semibold text-slate-500">Boxes</span>
+            </div>
+          </div>
+
+          <!-- Stock Validation Alert Box -->
+          <div id="stock-feedback" class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-start space-x-2">
+            <i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+            <div>
+              <span class="font-bold">Stock Verified:</span> 850 Boxes available in Central Warehouse.
+            </div>
+          </div>
+        </div>
+
+        <!-- Field 4: Notes -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+            4. Clinical Justification / Notes (Optional)
+          </label>
+          <textarea rows="3" placeholder="Indicate medical unit destination, e.g., Urgent replenishment for Pediatric ICU Floor 2..." class="w-full text-sm bg-slate-50 border border-slate-300 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
+          <button type="button" onclick="switchScreen('dashboard')" class="px-5 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition">
+            Cancel
+          </button>
+          <button type="submit" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-lg shadow-indigo-600/30 flex items-center space-x-2 transition">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Submit Supply Order</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- SCREEN VIEW 5: DISPATCH & APPROVAL TRAY (ADMIN VIEW) -->
+  <main id="screen-requests-mgmt" class="screen-view max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+    
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl font-extrabold text-slate-900">Dispatch & Approval Management Tray</h1>
+        <p class="text-sm text-slate-500">Distribution warehouse assignment and lifecycle transition control.</p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-lg border border-amber-200">18 Pending</span>
+        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-lg border border-emerald-200">142 Delivered</span>
+      </div>
+    </div>
+
+    <!-- Active Request Focus Card -->
+    <div class="bg-white rounded-2xl border-2 border-indigo-200 shadow-md p-6 mb-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-indigo-900 text-cyan-300">REQUEST #104</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span> Status: Pending Warehouse Assignment
+            </span>
+          </div>
+          <h2 class="text-lg font-bold text-slate-900 mt-1">Life & Health Medical Center — North Campus</h2>
+        </div>
+        <div class="text-right text-xs text-slate-500">
+          <p>Request Date: <strong class="text-slate-800">2026-09-01 08:30</strong></p>
+          <p>Requester: <strong class="text-slate-800">Manager Charles Ruiz</strong></p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6 text-xs">
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <p class="text-slate-500 font-semibold uppercase">Requested Medication</p>
+          <p class="text-base font-black text-slate-900 mt-1">Amoxicillin 500mg</p>
+          <p class="text-slate-500 mt-0.5">Capsules x 30 units</p>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <p class="text-slate-500 font-semibold uppercase">Requested Quantity</p>
+          <p class="text-base font-black text-indigo-700 mt-1">200 Boxes</p>
+          <p class="text-emerald-600 font-semibold mt-0.5">Verified available stock: 850</p>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <p class="text-slate-500 font-semibold uppercase">Hospital Destination</p>
+          <p class="text-base font-black text-slate-900 mt-1">Surgical Unit</p>
+          <p class="text-slate-500 mt-0.5">Scheduled urgent replenishment</p>
+        </div>
+      </div>
+
+      <!-- Action Panel for Administrator -->
+      <div class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-5">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-3 flex items-center">
+          <i class="fa-solid fa-sliders text-indigo-600 mr-1.5"></i>
+          Warehouse Assignment & Dispatch Actions (Admin Role)
+        </h3>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
+          
+          <!-- Assign Warehouse Dropdown -->
+          <div class="flex items-center space-x-2">
+            <select class="w-full text-xs font-semibold bg-white border border-indigo-200 rounded-xl p-2.5 text-indigo-950 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option>Assign: Central Distribution Warehouse (Stock: 850)</option>
+              <option>Assign: Southern Regional Supply Hub (Stock: 200)</option>
+            </select>
+            <button onclick="alert('Warehouse successfully assigned to order #104')" class="px-4 py-2.5 bg-indigo-900 hover:bg-indigo-950 text-cyan-300 text-xs font-bold rounded-xl whitespace-nowrap">
+              <i class="fa-solid fa-check mr-1"></i> Assign
+            </button>
+          </div>
+
+          <!-- Transition Status Buttons -->
+          <div class="flex items-center justify-end space-x-2">
+            <button onclick="alert('Supply Request Approved')" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 shadow-sm transition">
+              <i class="fa-solid fa-check"></i>
+              <span>Approve</span>
+            </button>
+            <button onclick="alert('Supply Request Rejected')" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 shadow-sm transition">
+              <i class="fa-solid fa-xmark"></i>
+              <span>Reject</span>
+            </button>
+            <button onclick="alert('Supply Request Marked as Delivered')" class="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-bold rounded-xl flex items-center space-x-1.5 shadow-sm transition">
+              <i class="fa-solid fa-truck"></i>
+              <span>Mark Delivered</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="font-semibold text-slate-700">RiwiMediCare &copy; 2026 — Product Evaluation: Standard 220501096</p>
+      <p class="mt-1">Developed by Brayan Lozada • Stack: TypeScript, Node.js, Express, PostgreSQL, Tailwind CSS</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT FOR SCREEN SWITCHING & LIVE VALIDATION -->
+  <script>
+    function switchScreen(screenName) {
+      document.querySelectorAll('.screen-view').forEach(view => {
+        view.classList.remove('active');
+      });
+      const activeScreen = document.getElementById('screen-' + screenName);
+      if (activeScreen) {
+        activeScreen.classList.add('active');
+      }
+      
+      // Update top button styles
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-cyan-500', 'text-indigo-950', 'shadow-sm');
+        btn.classList.add('text-indigo-200');
+      });
+      const activeBtn = document.getElementById('btn-' + screenName);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-indigo-200');
+        activeBtn.classList.add('bg-cyan-500', 'text-indigo-950', 'shadow-sm');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateStockPreview() {
+      const select = document.getElementById('select-medication');
+      const selectedOption = select.options[select.selectedIndex];
+      const stock = parseInt(selectedOption.getAttribute('data-stock'));
+      const unit = selectedOption.getAttribute('data-unit');
+      
+      document.getElementById('unit-badge').textContent = unit;
+      validateLiveStock();
+    }
+
+    function validateLiveStock() {
+      const select = document.getElementById('select-medication');
+      const selectedOption = select.options[select.selectedIndex];
+      const stock = parseInt(selectedOption.getAttribute('data-stock'));
+      const unit = selectedOption.getAttribute('data-unit');
+      const qtyInput = document.getElementById('input-qty');
+      const qty = parseInt(qtyInput.value) || 0;
+      const feedback = document.getElementById('stock-feedback');
+
+      if (qty > stock) {
+        feedback.className = 'p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800 flex items-start space-x-2';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-600 mt-0.5"></i><div><span class="font-bold">Insufficient Stock:</span> Only ' + stock + ' ' + unit + ' available.</div>';
+      } else {
+        feedback.className = 'p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-start space-x-2';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i><div><span class="font-bold">Stock Verified:</span> ' + stock + ' ' + unit + ' available in warehouse.</div>';
+      }
+    }
+
+    function handleRequestSubmit(e) {
+      e.preventDefault();
+      const select = document.getElementById('select-medication');
+      const stock = parseInt(select.options[select.selectedIndex].getAttribute('data-stock'));
+      const qty = parseInt(document.getElementById('input-qty').value) || 0;
+
+      if (qty > stock) {
+        alert('❌ Validation Error: Requested quantity exceeds warehouse stock.');
+        return;
+      }
+
+      alert('✅ Supply request successfully created with PENDING status.');
+      switchScreen('dashboard');
+    }
+
+    function changeSimulatedRole() {
+      const role = document.getElementById('role-selector').value;
+      alert('Simulated profile changed to: ' + role.toUpperCase());
+    }
+  </script>
+
+</body>
+</html>

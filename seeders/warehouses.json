@@ -1,12 +1,12 @@
 [
   {
-    "name": "Bodega Principal Norte",
-    "location": "Zona Industrial Norte, Bogotá",
+    "name": "Central Distribution Warehouse",
+    "location": "North Industrial Logistics Park",
     "capacity": 50000
   },
   {
-    "name": "Bodega Secundaria Sur",
-    "location": "Vía Panamericana, Cali",
+    "name": "Southern Regional Supply Hub",
+    "location": "South Commerce Logistics Zone",
     "capacity": 20000
   }
 ]
